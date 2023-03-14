@@ -1,7 +1,7 @@
 const express = require('express');
-
 const bodyParser = require('body-parser');
 const path = require('path');
+const mongoose = require('./database_connections/mongo');
 
 const app = express();
 app.set('view engine', 'ejs');
