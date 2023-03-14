@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('./database_connections/mongo');
+const session = require('./database_connections/neo4j');
+const redis = require('./database_connections/redis');
 
 const app = express();
 app.set('view engine', 'ejs');
