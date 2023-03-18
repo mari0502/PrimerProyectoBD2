@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //carpeta public para imgs y demas
-//app.use(express.static('public'));
+app.use(express.static('public'));
 app.use(express.static('files'));
 app.use(express.static(path.join(__dirname, 'public')))
 
