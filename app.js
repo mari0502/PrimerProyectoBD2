@@ -2,10 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const mongoose = require('./database_connections/mongo');
-const neo4jSession = require('./database_connections/neo4j');
-const redis = require('./database_connections/redis');
-//const mysqlconn = require('./database_connections/mysql');
+const MongooseConsultor = require('./database_connections/mongo');
+const Ne4jConsultor = require('./database_connections/neo4j');
+const RedisConsultant = require('./database_connections/redis');
+const MySqlConsultor = require('./database_connections/mysql');
+const mysqlcons = new MySqlConsultor();
+const rediscons = new RedisConsultant();
+const neo4jcons = new Ne4jConsultor();
+const mongoosecons = new MongooseConsultor();
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -28,4 +32,25 @@ app.get('/', function(req, res){
 app.listen('9000', () =>{
     console.log('Server running on port 9000');
 });
+
+app.post('/login', (req, res) => {
+    console.log(req.body);
+});
+
+app.get('/register', (req, res) => {
+    res.render("register");
+});
+
+app.post('/register', (req, res) => {
+    mysqlcons.insertUser(req.body.user, req.body.pass);
+    rediscons.insertUser(req.body.user, 
+                         req.body.photourl, 
+                         req.body.name, 
+                         req.body.lastName1, 
+                         req.body.lastName2);
+    neo4jcons.insertUser(req.body.user);
+    mongoosecons.insertUser(req.body.user);
+    res.redirect('/');
+})
+
 

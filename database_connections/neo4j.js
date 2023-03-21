@@ -7,4 +7,14 @@ var driver = neo4j.driver(
 
 var session = driver.session();
 
-module.exports = session;
+class Ne4jConsultor {
+    constructor(){}
+
+    async insertUser(user){
+        const cypher = "CREATE (u:USER {user: $user }) RETURN u";
+        const params = { user: user };
+        const res = await session.run(cypher, params);
+    }
+}
+
+module.exports = Ne4jConsultor;

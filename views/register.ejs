@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/mainStyle.css">
+    <title>Register</title>
+</head>
+<body>
+    <div class="form_Login" style="height: 500px; margin-top: 120px">
+        <form method="post" action="/register">
+            <h5> REGISTRO </h5>
+            <input class="controls" type="text" name="user" value="" placeholder="Usuario">
+            <input class="controls" type="password" name="pass" value="" placeholder="Contraseña">
+            <input class="controls" id="file" onchange="readURL()" type="file" name="photo" value="" placeholder="Foto de perfil" >
+            <input class="controls" id="filetext" type="text" name="photourl" value="" placeholder="Foto de perfil" hidden >
+            <input class="controls" type="text" name="name" value="" placeholder="Primer nombre" >
+            <input class="controls" type="text" name="lastName1" value="" placeholder="Primer apellido" >
+            <input class="controls" type="text" name="lastName2" value="" placeholder="Segundo apellido" >
+            <input class="button" type="submit" name="" value="INGRESAR">
+        </form>
+        <p> <a href="/">¿Ya tienes cuenta? Iniciar sesión</a></p>
+    </div>
+</body>
+<script>
+    function readURL(){
+        var url = document.getElementById('filetext');
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            // convert image file to base64 string
+            url.value = reader.result;
+        }, false);
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+</html>
