@@ -1,12 +1,22 @@
 const redis = require('redis');
-const client = redis.createClient();
+class RedisConsultant{
+    constructor(){}
 
-client.on('error', err => console.log('Redis Client Error', err));
+    async insertUser(user, foto, nombre, apellido1, apellido2){
+        const client = redis.createClient();
+        client.connect();
+        var info = {
+            foto: foto,
+            nombre: nombre, 
+            apellido1: apellido1, 
+            apellido2: apellido2
+        };
+        var strinfo = JSON.stringify(info);
+        console.log(strinfo);
+        await client.set(user, strinfo, async (err, reply) => {
+            if (err) throw err;
+        });
+    }
+}
 
-client.on('connect', function() {
-    console.log('Connected to Redis');
-});
-
-client.connect();
-
-module.exports = client;
+module.exports = RedisConsultant;

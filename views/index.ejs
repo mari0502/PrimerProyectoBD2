@@ -4,9 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="../styles/mainStyle.css">
+    <title>Login</title>
 </head>
 <body>
-    <h1>Hola mundo</h1>
+    <div class="form_Login">
+        <form method="post" action="/login">
+            <h5> BIENVENIDO </h5>
+            <input class="controls" type="text" name="user" value="" placeholder="Usuario">
+            <input class="controls" type="password" name="pass" value="" placeholder="Contraseña">
+            <input class="button" type="submit" name="" value="INGRESAR">
+        </form>
+        <p> <a href="register">¿No tienes cuenta? Registrate</a></p>
+    </div>
+
+<script src= "//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<% if(typeof alert != "undefined") { %>
+    <script>
+        Swal.fire({
+            title: '<%= alertTitle %>',
+            text: '<%= alertMessage %>',
+            icon: '<%= alertIcon %>',
+            showConfirmButton: <%= showConfirmButton %>,
+            timer: <%= timer %>
+        });
+</script>
+    <% } %>
+
 </body>
 </html>
