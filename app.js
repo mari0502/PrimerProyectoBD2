@@ -11,6 +11,11 @@ const rediscons = new RedisConsultant();
 const neo4jcons = new Ne4jConsultor();
 const mongoosecons = new MongooseConsultor();
 
+const usercreds = {
+    user: undefined,
+    pass: undefined
+}
+
 const app = express();
 app.set('view engine', 'ejs');
 //utilizar .ejs para las views en el folder de views
@@ -35,9 +40,12 @@ app.listen('9000', () =>{
 
 app.post('/login', async (req, res) => {
     const login = await mysqlcons.login(req.body.user, req.body.pass);
-    console.log(login);
     if(login){
         //To do: add main page 
+        usercreds = {
+            user: login.user,
+            pass: login.pass
+        };
         res.send("Loggeado!");
     }
     else{
