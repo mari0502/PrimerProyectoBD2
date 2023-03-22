@@ -15,3 +15,4 @@ mongodb/data/mongod.lock
 mongodb/data/WiredTiger.turtle
 mongodb/data/WiredTiger.wt
 *.wt
+mongodb/data/journal/WiredTigerLog.0000000007
