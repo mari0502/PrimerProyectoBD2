@@ -31,7 +31,6 @@ class MysqlConsultor{
   }
 
   async login(user, pass){
-    var sql = 'SELECT * FROM user WHERE user = ? and pass = ?';
     return new Promise(function(resolve, reject){
       connection.query('SELECT * FROM `user` where `user` = ? and `pass` = ?', 
       [
