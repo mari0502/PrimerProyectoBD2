@@ -29,6 +29,23 @@ class MysqlConsultor{
       }
     });
   }
+
+  async login(user, pass){
+    var sql = 'SELECT * FROM user WHERE user = ? and pass = ?';
+    const res = await connection.query(sql, [user, pass], function(err, res, fields) {
+      if(err){
+        console.log(err);
+        return err;
+      }
+      if(res[0]){
+        return true;
+      }
+      else{
+        return false;
+      }
+    });
+    return res;
+  }
 }
 
 module.exports = MysqlConsultor;

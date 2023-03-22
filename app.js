@@ -33,8 +33,24 @@ app.listen('9000', () =>{
     console.log('Server running on port 9000');
 });
 
-app.post('/login', (req, res) => {
-    console.log(req.body);
+app.post('/login', async (req, res) => {
+    const login = await mysqlcons.login(req.body.user, req.body.pass);
+    console.log(login);
+    if(login){
+        //To do: add main page 
+        res.send("Loggeado!");
+    }
+    else{
+        res.render('index',{
+            alert: true,
+            alertTitle: "Error",
+            alertMessage: "Usuario y/o contraseña incorrectas!",
+            alertIcon: "error",
+            showConfirmButton: true,
+            timer: false,
+            ruta: 'index'
+        });
+    }
 });
 
 app.get('/register', (req, res) => {
