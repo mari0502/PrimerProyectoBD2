@@ -12,11 +12,11 @@ class RedisConsultant{
             apellido2: apellido2
         };
         var strinfo = JSON.stringify(info);
-        console.log(strinfo);
         await client.set(user, strinfo, async (err, reply) => {
             if (err) throw err;
         });
     }
+
 }
 
 module.exports = RedisConsultant;
