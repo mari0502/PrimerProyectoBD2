@@ -16,3 +16,4 @@ mongodb/data/WiredTiger.turtle
 mongodb/data/WiredTiger.wt
 *.wt
 mongodb/data/journal/WiredTigerLog.0000000007
+mongodb/data/*
