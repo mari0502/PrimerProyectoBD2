@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/mainStyle.css">
+    <title>Login</title>
+</head>
+<body>
+    <header>
+        <a href="mainpage">Inicio</a>
+    </header>
+    <div class="form_Login" style="height: 550px; margin-top:40px">
+        <form method="post" action="/modifyprofile">
+            <h5> MI PERFIL </h5>
+            <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre">
+            <input class="controls" type="text" name="lastname1" id="lastname1" value="" placeholder="Primer apellido">
+            <input class="controls" type="text" name="lastname2" id="lastname2" value="" placeholder="Segundo apellido">
+            <label for="photo">Foto de perfil</label><br>
+            <img src="" id="photodisplay" alt="Foto de perfil">
+            <input type="file" onchange="readURL()" name="file">
+            <input type="text" name="photourl" id="photourl" hidden>
+            <input class="button" type="submit" name="" value="MODIFICAR">
+        </form>
+    </div>
+<script>
+    var userprofile = <%- (userprofile) %>;
+    console.log(userprofile);
+    document.getElementById('name').value = userprofile.nombre;
+    document.getElementById('lastname1').value = userprofile.apellido1;
+    document.getElementById('lastname2').value = userprofile.apellido2;
+    document.getElementById('photourl').value = userprofile.foto;
+    document.getElementById('photodisplay').src = userprofile.foto;
+</script>
+<script src= "//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<% if(typeof alert != "undefined") { %>
+    <script>
+        Swal.fire({
+            title: '<%= alertTitle %>',
+            text: '<%= alertMessage %>',
+            icon: '<%= alertIcon %>',
+            showConfirmButton: <%= showConfirmButton %>,
+            timer: <%= timer %>
+        });
+</script>
+    <% } %>
+    <script>
+        function readURL(){
+            const file = document.querySelector('input[type=file]').files[0];
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                // convert image file to base64 string
+                document.getElementById('photourl').value = reader.result;
+                document.getElementById('photodisplay').src = reader.result;
+            }, false);
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+</body>
+</html>

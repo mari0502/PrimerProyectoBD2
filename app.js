@@ -11,10 +11,12 @@ const rediscons = new RedisConsultant();
 const neo4jcons = new Ne4jConsultor();
 const mongoosecons = new MongooseConsultor();
 
-const usercreds = {
+var usercreds = {
     user: undefined,
     pass: undefined
 }
+
+var userprofile = {};
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -46,7 +48,8 @@ app.post('/login', async (req, res) => {
             user: login.user,
             pass: login.pass
         };
-        res.send("Loggeado!");
+        userprofile = await mongoosecons.getUserProfile(usercreds.user);
+        res.redirect('mainpage');
     }
     else{
         res.render('index',{
@@ -67,14 +70,31 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res) => {
     mysqlcons.insertUser(req.body.user, req.body.pass);
-    rediscons.insertUser(req.body.user, 
-                         req.body.photourl, 
-                         req.body.name, 
-                         req.body.lastName1, 
-                         req.body.lastName2);
     neo4jcons.insertUser(req.body.user);
-    mongoosecons.insertUser(req.body.user);
+    mongoosecons.insertUser(req.body.user, 
+                            req.body.photourl, 
+                            req.body.name, 
+                            req.body.lastName1, 
+                            req.body.lastName2);
     res.redirect('/');
 })
 
+app.get('/mainpage', (req, res) => {
+    res.render('mainpage');
+});
 
+app.get('/userprofile', (req, res) => {
+    res.render('userprofile', {
+        userprofile: JSON.stringify(userprofile)
+    });
+});
+
+app.post('/modifyprofile', async (req,res) =>{
+    mongoosecons.updateUserProfile(usercreds.user, 
+        req.body.photourl, 
+        req.body.name, 
+        req.body.lastname1, 
+        req.body.lastname2);
+    userprofile = await mongoosecons.getUserProfile(usercreds.user);
+    res.redirect('mainpage');
+});

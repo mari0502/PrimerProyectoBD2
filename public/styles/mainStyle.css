@@ -10,6 +10,11 @@ body{
     background-image: url('/images/fondo-Login.jpg');
 }
 
+header {
+    background: #4dbdc2;
+    padding: 20px;
+}
+
 .form_Login{
     width:400px;
     height: 340px;

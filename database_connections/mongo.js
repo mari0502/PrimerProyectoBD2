@@ -15,19 +15,45 @@ mongoose.connect(connectionString, options)
 
 var userSchema = new mongoose.Schema({
   user: String,
-  votes: Array
+  foto: String,
+  nombre: String,
+  apellido1: String,
+  apellido2: String,
+  votes: Array,
 });
 
 var userModel = mongoose.model('users', userSchema)
 class MongooseConsultor{
   constructor(){}
 
-  async insertUser(user){
+  async insertUser(user, foto, nombre, apellido1, apellido2){
     var userData = new userModel({
       user: user,
+      foto: foto,
+      nombre: nombre,
+      apellido1: apellido1,
+      apellido2: apellido2,
       votes: []
     });
-    const res = await userData.save();
+    await userData.save();
+  }
+
+  async getUserProfile(user){
+    return new Promise(async function(resolve, reject){
+      const res =  await userModel.findOne({user: user});
+      resolve(res);
+    });
+  }
+
+  async updateUserProfile(user ,foto, nombre, apellido1, apellido2){
+    var userinfo = {
+      foto: foto,
+      nombre: nombre,
+      apellido1: apellido1,
+      apellido2: apellido2,
+      votes: []
+    }
+    await userModel.findOneAndUpdate(user, userinfo);
   }
 }
 
