@@ -98,3 +98,8 @@ app.post('/modifyprofile', async (req,res) =>{
     userprofile = await mongoosecons.getUserProfile(usercreds.user);
     res.redirect('mainpage');
 });
+
+
+app.get('/createdatasets', (req, res) => {
+    res.render('createdatasets');
+});
