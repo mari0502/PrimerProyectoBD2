@@ -22,7 +22,21 @@ var userSchema = new mongoose.Schema({
   votes: Array,
 });
 
+var datasetSchema = new mongoose.Schema({
+  user: String,
+  name: String,
+  desc: String,
+  date: Date,
+  pic: String,
+  archive: String,
+  size: Number,
+  video: String,
+  comments: Array
+});
+
 var userModel = mongoose.model('users', userSchema)
+
+var datasetModel = mongoose.model('datasets', datasetSchema);
 class MongooseConsultor{
   constructor(){}
 
@@ -54,6 +68,21 @@ class MongooseConsultor{
       votes: []
     }
     await userModel.findOneAndUpdate(user, userinfo);
+  }
+
+  async newDataset(user, name, desc, date, pic, archive, size, video){
+    var datasetData = new datasetModel({
+      user: user,
+      name: name,
+      desc: desc,
+      date: date,
+      pic: pic,
+      archive: archive,
+      size: size,
+      video: video,
+      comments: []
+    });
+    await datasetData.save();
   }
 }
 

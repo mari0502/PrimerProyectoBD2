@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-
+const Fs = require('fs/promises');
 const MongooseConsultor = require('./database_connections/mongo');
 const Ne4jConsultor = require('./database_connections/neo4j');
 const RedisConsultant = require('./database_connections/redis');
@@ -18,14 +18,22 @@ var usercreds = {
 
 var userprofile = {};
 
+async function fileSize (path) {  
+    return new Promise(async function(resolve, reject){
+        const stats = await Fs.stat(path)  
+        resolve(stats.size);
+      });
+}
+
 const app = express();
 app.set('view engine', 'ejs');
 //utilizar .ejs para las views en el folder de views
 app.set('views', path.join(__dirname, 'views'));
 
 //json parser para las consultas a bd
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.json({limit: '10000mb', extended: true}));
+app.use(express.urlencoded({limit: '10000mb', extended:true, parameterLimit:500000000}));
+app.use(express.text({limit:'10000mb'}))
 
 //carpeta public para imgs y demas
 app.use(express.static('public'));
@@ -97,4 +105,28 @@ app.post('/modifyprofile', async (req,res) =>{
         req.body.lastname2);
     userprofile = await mongoosecons.getUserProfile(usercreds.user);
     res.redirect('mainpage');
+});
+
+app.get('/userdatasets', (req, res) => {
+    res.render('userdatasets');
+});
+
+app.get('/newdataset', (req, res) =>{
+    res.render('newdataset');
+});
+
+app.post('/newdataset', async (req, res) => {
+    const size = await fileSize(req.body.archive);
+    console.log(size);
+    // await mongoosecons.newDataset(
+    //     usercreds.user,
+    //     req.body.name,
+    //     req.body.desc,
+    //     Date.now(),
+    //     req.body.photourl,
+    //     req.body.archiveurl,
+    //     size,
+    //     req.body.videourl
+    // )
+    res.redirect('userdatasets');  
 });

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/mainStyle.css">
+    <title>Nuevo Dataset</title>
+</head>
+<body>
+    <header>
+        <a href="userdatasets">Atrás</a>
+    </header>
+    <div class="form_Login" style="height: 390px">
+        <form method="post" action="/newdataset">
+            <h5> NUEVO DATASET </h5>
+            <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre">
+            <input class="controls" type="text" name="desc" id="desc" value="" placeholder="Descripción">
+            <label for="photo">Foto</label><br>
+            <input type="file" onchange="readPhotoURL()" name="photo"><br>
+            <input type="text" name="photourl" id="photourl" hidden>
+            <label for="archive">Archivo fuente</label><br>
+            <input type="file" onchange="readArchiveURL()" name="archive" id="archive"><br>
+            <input type="text" name="archiveurl" id="archiveurl" hidden>
+            <label for="video">Video</label><br>
+            <input type="file" onchange="readVideoURL()" name="video" id="video"><br>
+            <input type="text" name="videourl" id="videourl" hidden>
+            <input class="button" type="submit" name="" value="CREAR">
+        </form>
+    </div>
+    <script>
+        function readPhotoURL(){
+            console.log("Photo");
+            const file = document.querySelector('input[type=file]').files[0];
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                // convert image file to base64 string
+                document.getElementById('photourl').value = reader.result;
+            }, false);
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function readArchiveURL(){
+            const file = document.getElementById('archive').files[0];
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                // convert image file to base64 string
+                document.getElementById('archiveurl').value = reader.result;
+            }, false);
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function readVideoURL(){
+            const file = document.getElementById('video').files[0];
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                // convert image file to base64 string
+                console.log(reader.result);
+                document.getElementById('videourl').value = reader.result;
+            }, false);
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+<script src= "//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<% if(typeof alert != "undefined") { %>
+    <script>
+        Swal.fire({
+            title: '<%= alertTitle %>',
+            text: '<%= alertMessage %>',
+            icon: '<%= alertIcon %>',
+            showConfirmButton: <%= showConfirmButton %>,
+            timer: <%= timer %>
+        });
+</script>
+    <% } %>
+    <script>
+        function readURL(){
+            const file = document.querySelector('input[type=file]').files[0];
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                // convert image file to base64 string
+                document.getElementById('photourl').value = reader.result;
+                document.getElementById('photodisplay').src = reader.result;
+            }, false);
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+</body>
+</html>
