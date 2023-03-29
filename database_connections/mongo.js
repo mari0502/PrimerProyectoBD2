@@ -14,7 +14,10 @@ mongoose.connect(connectionString, options)
   .catch((err) => console.log(err));
 
 var userSchema = new mongoose.Schema({
-  user: String,
+  user: {
+    type: String,
+    unique: true
+  },
   foto: String,
   nombre: String,
   apellido1: String,
@@ -24,7 +27,10 @@ var userSchema = new mongoose.Schema({
 
 var datasetSchema = new mongoose.Schema({
   user: String,
-  name: String,
+  name: {
+    type: String,
+    unique: true 
+  },
   desc: String,
   date: Date,
   pic: String,

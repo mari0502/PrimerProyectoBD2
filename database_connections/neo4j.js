@@ -15,6 +15,21 @@ class Ne4jConsultor {
         const params = { user: user };
         const res = await session.run(cypher, params);
     }
+
+    async addCreateRelation(name, user){
+        const cypher = "MATCH (a:USER),(b:DATASET) WHERE a.user = $user AND b.name = $name CREATE (a)-[r:CREATES]->(b) RETURN type(r)"
+        const params = { user: user,
+                         name: name };
+        const res = await session.run(cypher, params);
+    }
+
+    async insertDataSet(name, user){
+        const cypher = "CREATE (n:DATASET {name: $name}) RETURN n";
+        const params = { name: name };
+        const res = await session.run(cypher, params);
+        const res2 = await this.addCreateRelation(name, user);
+
+    }
 }
 
 module.exports = Ne4jConsultor;

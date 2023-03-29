@@ -1,5 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const request = require('request');
+const { Buffer } = require('buffer');
 const path = require('path');
 const Fs = require('fs/promises');
 const MongooseConsultor = require('./database_connections/mongo');
@@ -116,17 +117,22 @@ app.get('/newdataset', (req, res) =>{
 });
 
 app.post('/newdataset', async (req, res) => {
-    const size = await fileSize(req.body.archive);
-    console.log(size);
-    // await mongoosecons.newDataset(
-    //     usercreds.user,
-    //     req.body.name,
-    //     req.body.desc,
-    //     Date.now(),
-    //     req.body.photourl,
-    //     req.body.archiveurl,
-    //     size,
-    //     req.body.videourl
-    // )
+    const dataStartIndex = req.body.archiveurl.indexOf(',') + 1; // find the index of the comma separating the data type from the actual data
+    const encodedData = req.body.archiveurl.substring(dataStartIndex);
+    const decodedData = Buffer.from(encodedData, 'base64');
+
+    await mongoosecons.newDataset(
+        usercreds.user,
+        req.body.name,
+        req.body.desc,
+        Date.now(),
+        req.body.photourl,
+        req.body.archiveurl,
+        decodedData.byteLength,
+        req.body.videourl
+    );
+
+    await neo4jcons.insertDataSet(req.body.name, usercreds.user);
+    
     res.redirect('userdatasets');  
 });
