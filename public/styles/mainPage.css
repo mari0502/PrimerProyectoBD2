@@ -1,0 +1,127 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url('/images/fondo-Login.jpg');
+}
+
+header{
+    background: #4dbdc2;
+    padding: 15px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(77, 189, 194, 1);
+}
+
+h1{
+    display: flex;
+    color: #ffffff;
+    font-size: 38px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+h1 p{
+   color: #4dbdc2; 
+}
+
+button{
+    padding: 9px 30px;
+    background-color: rgb(213, 210, 210);
+    cursor: pointer;
+    border: none;
+    border-radius: 50px;
+    transition: all 0.3s ease 0s;
+}
+
+a button{
+    align-items: left;
+    justify-content: left;
+}
+
+button:hover{
+    background-color: rgb(238, 226, 121);
+}
+
+.box{
+    height: 150px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box form{
+    background-color: white;
+    width: 600px;
+    height: 55px;
+    display: flex;
+    border-radius: 0 50px 50px 0;
+}
+
+.box form input{
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 18px;
+}
+
+.box a button{
+    padding: 0px;
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    font-size: 17px;
+    border-radius: 20px 20px 20px 20px;
+    background-color: #97f480;
+    content: "+";
+}
+
+.box a button:hover{
+    width: 130px;
+    height: 55px;
+    font-size: 15px;
+    background-color: rgb(238, 226, 121);
+}
+
+.box a button:hover::after{
+    content: "Crear dataset";
+}
+
+form button{
+    background: tomato;
+    padding: 15px 30px;
+    border: none;
+    outline: none;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 0 0 0 0;
+}
+
+form .fa-search{
+    align-self: center;
+    padding: 10px 20px;
+    color: #777;
+}
+
+.navLinks li{
+    list-style: none;
+    display: inline-block;
+    padding: 0px 40px;
+}
+
+.navLinks li a{
+    color: #000000;
+    transition: all 0.3s ease 0s;
+    text-decoration: none;
+}
+
+.navLinks li a:hover{
+    color: #ffffff;
+}
