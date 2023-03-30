@@ -139,11 +139,23 @@ app.post('/newdataset', async (req, res) => {
 
 app.post('/lookfordataset', async (req,res) =>{
     const look = req.body.lookfor;
-    datasets = await mongoosecons.lookForDatasets(look);
-    res.render('datasetsfound',{
-        datasetname: look,
-        datasets: JSON.stringify(datasets)
-    });
+    const typeOf = req.body.typeofSearch;
+    if (typeOf=="name_description"){
+        datasets = await mongoosecons.lookForDatasets(look);
+        res.render('datasetsfound',{
+            datasetname: look,
+            datasets: JSON.stringify(datasets)
+        });
+    } else if (typeOf=="user") {
+        datasets = await mongoosecons.userDatasets(look);
+        console.log(datasets);
+        res.render('datasetsUser',{
+            username: look,
+            datasets: JSON.stringify(datasets)
+        });
+    } else{
+        res.redirect("mainpage");
+    }
 });
 
 app.post('/datasetInfo', async(req, res) =>{

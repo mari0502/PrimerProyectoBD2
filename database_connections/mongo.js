@@ -94,6 +94,12 @@ class MongooseConsultor{
       resolve(reply);
     });
   }
+  async userDatasets(keyword){
+    return new Promise(async function(resolve, reject){
+      var reply = await datasetModel.find({user: keyword});
+      resolve(reply);
+    });
+  }
   async specificDataset(keyword){
     return new Promise(async function(resolve, reject){
       var reply = await datasetModel.find({_id: keyword});
