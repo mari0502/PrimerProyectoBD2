@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/mainStyle.css">
+    <title>Datasets</title>
+</head>
+<style>
+* {
+         margin: auto;
+         padding: auto;
+         font-family: Arial, Helvetica, sans-serif;
+     }
+     h1, h2, h3, p{
+         color:rgb(255, 255, 255);
+     }
+     h4{
+        color: #fca311
+     }
+
+    .dynamic-block{
+        text-align: center;
+        border-style: solid;
+        border-color: #aaaaaa;
+        box-shadow: 0px 10px 5px #aaaaaa;
+        padding: 20px;
+        margin-left: 60vh;
+        margin-right: 60vh;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        border-radius: 20px;
+    }
+    div{
+        text-align: center;
+    }
+    button{
+        border-radius: 5px;
+        width: 40%;
+    }
+
+
+</style>
+<body>
+    <header>
+        <a href="mainpage">Inicio</a> 
+    </header>
+
+    <div id="main-block" class="main-block">
+        <form id="form-block" action="/" method="post">
+        </form>
+    </div>
+</body>
+
+
+<script>
+    var dataset = <%- (dataset) %>;
+    var div = document.createElement('div');
+    div.className = "dynamic-block";
+    var h3 = document.createElement('h3');
+    var description = document.createElement('p');
+    var date = document.createElement('p');
+    var size = document.createElement('p');
+    var user = document.createElement('p');
+    div.appendChild(h3);
+    div.appendChild(description);
+    div.appendChild(date);
+    div.appendChild(size);
+    div.appendChild(user);
+    h3.textContent = "Nombre del archivo: " + dataset.name;
+    description.textContent = "Descripción: " + dataset.desc;
+    date.textContent = "Fecha de Creacion: " + dataset.date;
+    size.textContent = "Tamaño del archivo: " + dataset.size;
+    user.textContent = "Propietario: " + dataset.user;
+    document.getElementById('form-block').appendChild(div);
+</script>
+</html>

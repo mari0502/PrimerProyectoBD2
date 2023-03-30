@@ -39,9 +39,7 @@ var datasetSchema = new mongoose.Schema({
   video: String,
   comments: Array
 });
-
 var userModel = mongoose.model('users', userSchema)
-
 var datasetModel = mongoose.model('datasets', datasetSchema);
 class MongooseConsultor{
   constructor(){}
@@ -89,6 +87,18 @@ class MongooseConsultor{
       comments: []
     });
     await datasetData.save();
+  }
+  async lookForDatasets(keyword){
+    return new Promise(async function(resolve, reject){
+      var reply = await datasetModel.find({$or:[{desc: {"$regex": keyword, "$options": "i"}},{name: {"$regex": keyword, "$options": "i"}}]});
+      resolve(reply);
+    });
+  }
+  async specificDataset(keyword){
+    return new Promise(async function(resolve, reject){
+      var reply = await datasetModel.find({_id: keyword});
+      resolve(reply);
+    });
   }
 }
 

@@ -136,3 +136,22 @@ app.post('/newdataset', async (req, res) => {
     
     res.redirect('userdatasets');  
 });
+
+app.post('/lookfordataset', async (req,res) =>{
+    const look = req.body.lookfor;
+    datasets = await mongoosecons.lookForDatasets(look);
+    res.render('datasetsfound',{
+        datasetname: look,
+        datasets: JSON.stringify(datasets)
+    });
+});
+
+app.post('/datasetInfo', async(req, res) =>{
+    const datasetId = req.body.btn;
+    datasetF = await mongoosecons.specificDataset(datasetId);
+    dataset = datasetF[0];
+    res.render('datasetInfo',{
+        datasetname: dataset.name,
+        dataset: JSON.stringify(dataset)
+    });
+});

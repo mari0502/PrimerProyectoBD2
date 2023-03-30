@@ -9,7 +9,12 @@
 </head>
 <body>
     <header>
-        <a href="userprofile">Mi perfil</a> <a href="userdatasets">Mis datasets</a>
+        <a href="userprofile">Mi perfil</a> 
+        <a href="userdatasets">Mis datasets</a> 
+        <form action="/lookfordataset" method="post">
+            <input type="text" id="lookfor" name="lookfor" placeholder="Are you lookin for a dataset?" style="width: 15%;">
+            <button type="submit">Search</button>
+        </form>
     </header>
 
 <script src= "//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
