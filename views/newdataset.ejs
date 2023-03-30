@@ -18,9 +18,9 @@
         <a href="/"><button>Cerrar Sesión</button></a>
     </header>
 
-    <div class="form_Login" style="height: 390px">
+    <div class="form_Login" style="width:500px; height: 420px;  margin-top: 120px">
         <form method="post" action="/newdataset">
-            <h5> NUEVO DATASET </h5>
+            <h5> CREAR NUEVO DATASET </h5>
             <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre">
             <input class="controls" type="text" name="desc" id="desc" value="" placeholder="Descripción">
             <label for="photo">Foto</label><br>
@@ -32,7 +32,7 @@
             <label for="video">Video</label><br>
             <input type="file" onchange="readVideoURL()" name="video" id="video"><br>
             <input type="text" name="videourl" id="videourl" hidden>
-            <input class="button" type="submit" name="" value="CREAR">
+            <input class="buttonCreate" type="submit" name="" value="CREAR">
         </form>
     </div>
     <script>
