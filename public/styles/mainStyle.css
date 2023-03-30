@@ -47,6 +47,7 @@ header {
     font-weight: lighter;
 }
 
+
 .button{
     width: 100%;
     height: 40px;
@@ -56,15 +57,6 @@ header {
     margin-bottom: 16px;
 }
 
-.buttonCreate{
-    width: 100%;
-    height: 40px;
-    background: #237175;
-    border: 1px;
-    color: white;
-    margin-top: 25px;
-    margin-bottom: 16px;
-}
 
 .form_Login p{
     height: 40px;
@@ -80,4 +72,30 @@ header {
 
 .form_Login a:hover{
     text-decoration: underline;
+}
+
+
+.controlDescription{
+    width: 100%;
+    border: none;
+    margin-bottom: 15px;
+    padding: 20px 10px;
+    background: white;
+    font-size: 14px;
+    font-weight: lighter;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.lblDatasets{
+    margin-bottom: 10px;
+}
+
+.buttonCreate{
+    width: 100%;
+    height: 40px;
+    background: #237175;
+    border: 1px;
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 16px;
 }
