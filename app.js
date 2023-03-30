@@ -136,3 +136,34 @@ app.post('/newdataset', async (req, res) => {
     
     res.redirect('userdatasets');  
 });
+
+app.post('/lookfordataset', async (req,res) =>{
+    const look = req.body.lookfor;
+    const typeOf = req.body.typeofSearch;
+    if (typeOf=="name_description"){
+        datasets = await mongoosecons.lookForDatasets(look);
+        res.render('datasetsfound',{
+            datasetname: look,
+            datasets: JSON.stringify(datasets)
+        });
+    } else if (typeOf=="user") {
+        datasets = await mongoosecons.userDatasets(look);
+        console.log(datasets);
+        res.render('datasetsUser',{
+            username: look,
+            datasets: JSON.stringify(datasets)
+        });
+    } else{
+        res.redirect("mainpage");
+    }
+});
+
+app.post('/datasetInfo', async(req, res) =>{
+    const datasetId = req.body.btn;
+    datasetF = await mongoosecons.specificDataset(datasetId);
+    dataset = datasetF[0];
+    res.render('datasetInfo',{
+        datasetname: dataset.name,
+        dataset: JSON.stringify(dataset)
+    });
+});
