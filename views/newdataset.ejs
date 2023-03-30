@@ -5,12 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/mainStyle.css">
+    <link rel="stylesheet" href="../styles/mainPage.css">
     <title>Nuevo Dataset</title>
 </head>
 <body>
     <header>
-        <a href="userdatasets">Atrás</a>
+        <ul class="navLinks">
+            <li><a href="mainpage">Inicio</a></li>
+            <li><a href="userprofile">Mi perfil</a></li>
+            <li><a href="#">Acerca de</a></li>
+        </ul>
+        <a href="/"><button>Cerrar Sesión</button></a>
     </header>
+
     <div class="form_Login" style="height: 390px">
         <form method="post" action="/newdataset">
             <h5> NUEVO DATASET </h5>
