@@ -106,6 +106,11 @@ class MongooseConsultor{
       resolve(reply);
     });
   }
+  async newComment (datasetID){
+    await userModel.findOneAndUpdate(datasetID, comment);
+  }
+
+
 }
 
 module.exports = MongooseConsultor;

@@ -15,12 +15,6 @@
             <li><a href="mainpage">Inicio</a></li>
             <li><a href="userprofile">Mi perfil</a></li>
             <li><a href="#">Acerca de</a></li>
-            <li><form action="/lookfordataset" method="post">
-                <input type="text" id="lookfor" name="lookfor" placeholder="Are you lookin for a dataset?" style="width: 15%;">
-                <input type="radio" name="typeofSearch" id="user" value="user"> <label for="user">Usuario</label>
-                <input type="radio" name="typeofSearch" id="name_description" value="name_description"> <label for="name_description">Nombre/Descripcion</label>
-                <button type="submit">Search</button>
-            </form></li>
         </ul>
         <a href="/"><button>Cerrar Sesión</button></a>
     </header>
@@ -28,9 +22,11 @@
     <h1><p>Dataset</p>Sharing</h1>
     <div class="box">
         <a href="newdataset"><button>+ </button></a>
-        <form>
+        <form action="/lookfordataset" method="post">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Buscar datasets/usuarios">
+            <input type="text" name="lookfor" placeholder="Buscar datasets/usuarios">
+            <input type="radio" name="typeofSearch" id="user" value="user"> <label for="user">Usuario</label> <br>
+            <input type="radio" name="typeofSearch" id="name_description" value="name_description"> <label for="name_description">Nombre/Descripcion</label>
             <button type="submit">Buscar</button>
         </form>
     </div>

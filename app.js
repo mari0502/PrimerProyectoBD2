@@ -167,3 +167,8 @@ app.post('/datasetInfo', async(req, res) =>{
         dataset: JSON.stringify(dataset)
     });
 });
+
+app.post('/insertDatasetComment', async(req, res) =>{
+    console.log(usercreds.user);
+    
+});
