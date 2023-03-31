@@ -25,16 +25,16 @@
         <form method="post" action="/modifyprofile">
             <h5> MI PERFIL </h5>
             <label for="photo">Foto de perfil</label><br>
-            <img src="" alt="Foto de perfil" id="photodisplay"  width="200" height="200" align="left">
+            <img src="" alt="Foto de perfil" id="photodisplay" width="200" height="200" align="left">
 
-            <input class="button" type="submit" name="" value="MODIFICAR">
+            <input class="btnModify" type="submit" name="" value="MODIFICAR">
 
-            <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre">
-            <input class="controls" type="text" name="lastname1" id="lastname1" value="" placeholder="Primer apellido">
-            <input class="controls" type="text" name="lastname2" id="lastname2" value="" placeholder="Segundo apellido">
+            <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre" hidden>
+            <input class="controls" type="text" name="lastname1" id="lastname1" value="" placeholder="Primer apellido" hidden>
+            <input class="controls" type="text" name="lastname2" id="lastname2" value="" placeholder="Segundo apellido" hidden>
             
             
-            <input type="file" onchange="readURL()" name="file">
+            <input type="file" onchange="readURL()" name="file" hidden>
             <input type="text" name="photourl" id="photourl" hidden>
             
         </form>

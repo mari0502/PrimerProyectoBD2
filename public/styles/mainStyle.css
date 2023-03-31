@@ -99,3 +99,12 @@ header {
     margin-top: 20px;
     margin-bottom: 16px;
 }
+
+.btnModify{
+    width: 120px;
+    height: 40px;
+    background: #237175;
+    border: 1px;
+    color: white;
+    margin-top: 250px;
+}
