@@ -148,7 +148,7 @@ app.post('/lookfordataset', async (req,res) =>{
         });
     } else if (typeOf=="user") {
         datasets = await mongoosecons.userDatasets(look);
-        console.log(datasets);
+        //console.log(datasets);
         res.render('datasetsUser',{
             username: look,
             datasets: JSON.stringify(datasets)
