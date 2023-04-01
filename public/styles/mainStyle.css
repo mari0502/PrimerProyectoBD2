@@ -106,5 +106,30 @@ header {
     background: #237175;
     border: 1px;
     color: white;
-    margin-top: 250px;
+    margin: 20px 0 0 60px;
+}
+
+.controlsMyAcc{
+    width: 450px;
+    border: none;
+    margin-bottom: 15px;
+    padding: 11px 10px;
+    background: white;
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.containerMyAcc1{
+    margin: 40px auto auto 90px;
+    float: left;
+}
+
+.containerMyAcc2{
+    margin: 10px 50px auto auto;
+    float: right;
+}
+
+.containerMyAcc2 label{
+    float: left;
+    margin-right: 50px;
 }

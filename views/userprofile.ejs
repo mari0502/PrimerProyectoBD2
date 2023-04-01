@@ -21,21 +21,40 @@
         <a href="/"><button>Cerrar Sesión</button></a>
     </header>
     
-    <div class="form_Login" style="width:1200px; height: 440px;  margin-top: 110px">
+    <div class="form_Login" style="width:1200px; height: 480px;  margin-top: 110px">
         <form method="post" action="/modifyprofile">
             <h5> MI PERFIL </h5>
-            <label for="photo">Foto de perfil</label><br>
-            <img src="" alt="Foto de perfil" id="photodisplay" width="200" height="200" align="left">
 
-            <input class="btnModify" type="submit" name="" value="MODIFICAR">
+            <div class="containerMyAcc1">
+                <label for="photo">Foto de perfil:</label><br>
+                <img src="" alt="Foto de perfil" id="photodisplay" width="250" height="250"><br>
+                <input class="btnModify" type="submit" name="" value="MODIFICAR"><br>
+                
+            </div>
 
-            <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre" hidden>
-            <input class="controls" type="text" name="lastname1" id="lastname1" value="" placeholder="Primer apellido" hidden>
-            <input class="controls" type="text" name="lastname2" id="lastname2" value="" placeholder="Segundo apellido" hidden>
-            
-            
-            <input type="file" onchange="readURL()" name="file" hidden>
-            <input type="text" name="photourl" id="photourl" hidden>
+            <div class="containerMyAcc2">
+                <label>Usuario:</label>
+                <input disabled class="controlsMyAcc" type="text" name="user" id="user" value="" placeholder="Usuario..."><br>
+                
+                <label>Contraseña:</label>
+                <input disabled class="controlsMyAcc" type="text" name="password" id="password" value="" placeholder="Password..."><br>
+                
+                <label>Nombre:</label>
+                <input disabled class="controlsMyAcc" type="text" name="name" id="name" value="" placeholder="Nombre"><br>
+                
+                <label>Primer apellido:</label>
+                <input disabled class="controlsMyAcc" type="text" name="lastname1" id="lastname1" value="" placeholder="Primer apellido"><br>
+                
+                <label>Segundo apellido:</label>
+                <input disabled class="controlsMyAcc" type="text" name="lastname2" id="lastname2" value="" placeholder="Segundo apellido"><br>
+                
+                <label>Fecha nacimiento:</label>
+                <input disabled class="controlsMyAcc" type="text" name="nacimiento" id="nacimiento" value="" placeholder="Nacimiento..."><br>
+                
+                <input disabled type="file" onchange="readURL()" name="file">
+                <input disabled type="text" name="photourl" id="photourl">
+            </div>
+
             
         </form>
     </div>
@@ -43,12 +62,15 @@
 <script>
     var userprofile = <%- (userprofile) %>;
     console.log(userprofile);
+    document.getElementById("user").value = userprofile.user;
+    document.getElementById("password").value = userprofile.password;
     document.getElementById('name').value = userprofile.nombre;
     document.getElementById('lastname1').value = userprofile.apellido1;
     document.getElementById('lastname2').value = userprofile.apellido2;
     document.getElementById('photourl').value = userprofile.foto;
     document.getElementById('photodisplay').src = userprofile.foto;
 </script>
+
 <script src= "//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <% if(typeof alert != "undefined") { %>
     <script>
@@ -61,20 +83,21 @@
         });
 </script>
     <% } %>
-    <script>
-        function readURL(){
-            const file = document.querySelector('input[type=file]').files[0];
-            const reader = new FileReader();
-            reader.addEventListener("load", () => {
-                // convert image file to base64 string
-                document.getElementById('photourl').value = reader.result;
-                document.getElementById('photodisplay').src = reader.result;
-            }, false);
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+
+<script>
+    function readURL(){
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+            // convert image file to base64 string
+            document.getElementById('photourl').value = reader.result;
+            document.getElementById('photodisplay').src = reader.result;
+        }, false);
+        if (file) {
+            reader.readAsDataURL(file);
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>
