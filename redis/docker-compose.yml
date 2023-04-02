@@ -1,8 +1,8 @@
-version: "3.7"
+version: "3.2"
 
 services:
   redis:
-    image: redis:6.2-alpine
+    image: redis:alpine
     container_name: redis
     restart: always
     ports:
@@ -10,3 +10,5 @@ services:
     command: redis-server --loglevel warning --requirepass password
     volumes:
       - ./data:/data
+    environment:
+      - REDIS_REPLICATION_MODE=master

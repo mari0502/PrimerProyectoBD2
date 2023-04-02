@@ -23,7 +23,7 @@
         <form method="post" action="/newdataset">
             <h5> CREAR NUEVO DATASET </h5>
             <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre">
-            <textarea class="controlDescription" name="desc" id="desc" placeholder="Descripción" maxlength='1000' minlength='100'></textarea>
+            <textarea class="controlDescription" name="desc" id="desc" placeholder="Descripción" maxlength='1000' minlength='10'></textarea>
 
             <label for="photo">Seleccione una foto:</label><br>
             <input class="lblDatasets"type="file" onchange="readPhotoURL()" name="photo"><br>

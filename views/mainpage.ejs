@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <title>Página Principal</title>
     <link rel="shortcut icon" href="/images/mainPage.png">
 </head>
+
 <body>
     <header>
         <ul class="navLinks">
@@ -16,10 +18,20 @@
             <li><a href="userprofile">Mi perfil</a></li>
             <li><a href="#">Acerca de</a></li>
         </ul>
+
+        <div class="notification-wrapper">
+            <button class="notification-button">Notificaciones</button>
+            <ul id="notification-list" class="notification-list">
+            </ul>
+        </div>
+
         <a href="/"><button>Cerrar Sesión</button></a>
+
     </header>
-  
-    <h1><p>Dataset</p>Sharing</h1>
+
+    <h1>
+        <p>Dataset</p>Sharing
+    </h1>
 
     <div class="box">
         <a href="newdataset"><button>+ </button></a>
@@ -27,23 +39,36 @@
             <i class="fas fa-search"></i>
             <input class="searchBar" type="text" name="lookfor" placeholder="Buscar datasets/usuarios">
             <input type="radio" name="typeofSearch" id="user" value="user"><label for="user">Usuario</label>
-            <input type="radio" name="typeofSearch" id="name_description" value="name_description"> <label for="name_description">Nombre/Descripción</label>
-            <button type="submit">Buscar</button>  
+            <input type="radio" name="typeofSearch" id="name_description" value="name_description"> <label
+                for="name_description">Nombre/Descripción</label>
+            <button type="submit">Buscar</button>
         </form>
     </div>
-
-<script src= "//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<% if(typeof alert != "undefined") { %>
     <script>
-        Swal.fire({
-            title: '<%= alertTitle %>',
-            text: '<%= alertMessage %>',
-            icon: '<%= alertIcon %>',
-            showConfirmButton: <%= showConfirmButton %>,
-            timer: <%= timer %>
+        var nots =  <%- (nots) %>;
+        var i = 0;
+        var notitem = document.getElementById("notification-list");
+        console.log(nots);
+        while(nots[i] != undefined){
+            var li = document.createElement("li");
+            li.class = "notification-item";
+            li.textContent = nots[i].message;
+            notitem.appendChild(li);
+            i++;
+        }
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <% if(typeof alert !="undefined" ) { %>
+        <script>
+            Swal.fire({
+                title: '<%= alertTitle %>',
+                text: '<%= alertMessage %>',
+                icon: '<%= alertIcon %>',
+                showConfirmButton: <%= showConfirmButton %>,
+                timer: <%= timer %>
         });
-</script>
-    <% } %>
-
+        </script>
+        <% } %>
 </body>
+
 </html>

@@ -15,37 +15,37 @@ connection.connect((err) => {
   }
 });
 
-class MysqlConsultor{
-  constructor(){}
+class MysqlConsultor {
+  constructor() { }
 
-  insertUser(user, pass){
+  insertUser(user, pass) {
     //To do: add salt complex
     var salt = pass + "me";
     var sql = 'INSERT INTO user values (?, ?, ?)';
-    connection.query(sql, [user, pass, salt], function(err, res, fields) {
-      if(err){
+    connection.query(sql, [user, pass, salt], function (err, res, fields) {
+      if (err) {
         console.log(err);
         return err;
       }
     });
   }
 
-  async login(user, pass){
-    return new Promise(function(resolve, reject){
-      connection.query('SELECT * FROM `user` where `user` = ? and `pass` = ?', 
-      [
+  async login(user, pass) {
+    return new Promise(function (resolve, reject) {
+      connection.query('SELECT * FROM `user` where `user` = ? and `pass` = ?',
+        [
           user,
           pass
-      ], 
-      function(error, results, fields){
-          if(results[0]){
-              resolve(results[0]);
+        ],
+        function (error, results, fields) {
+          if (results[0]) {
+            resolve(results[0]);
           }
-          else{
-              resolve(false);
+          else {
+            resolve(false);
           }
-      });
-  })
+        });
+    })
   }
 }
 

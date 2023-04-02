@@ -30,6 +30,41 @@ class Ne4jConsultor {
         const res2 = await this.addCreateRelation(name, user);
 
     }
+
+    async addFollowRelation(followuser, userfollowing){
+        const cypher = "MATCH (a:USER),(b:USER) WHERE a.user = $followuser AND b.user = $userfollowing CREATE (b)-[r:FOLLOWS]->(a) RETURN type(r)";
+        const params = { followuser: followuser,
+                         userfollowing: userfollowing };
+        const res = await session.run(cypher, params);
+    }
+
+    async getIfUserFollowed(user, userfollowing){
+        return new Promise(async function (resolve, reject) {
+            const cypher = "MATCH (a:USER),(b:USER) WHERE a.user = $user AND b.user = $userfollowing OPTIONAL MATCH (a)-[r:FOLLOWS]->(b) RETURN r";
+            const params = { user: user,
+                             userfollowing: userfollowing };
+            const res = await session.run(cypher, params);
+            if(res.records[0]._fields[0]){
+                resolve(true);
+            }
+            else{
+                resolve(false);
+            }
+        });
+    }
+
+    async getUsersFollowingMe(user){
+        return new Promise(async function (resolve, reject) {
+            const cypher = "MATCH (followers:USER)-[:FOLLOWS]->(following:USER {user: $user}) RETURN followers";
+            const params = { user: user};
+            var users = [];
+            const res = await session.run(cypher, params);
+            res.records.forEach(record => {
+                users.push(record.get("followers").properties.user);
+            });
+            resolve(users);
+        });
+    }
 }
 
 module.exports = Ne4jConsultor;
