@@ -8,21 +8,23 @@
     <title>Registro</title>
 </head>
 <body>
-    <div class="form_Login" style="height: 500px; margin-top: 120px">
+    <div class="form_Login" style="height: 590px; margin-top: 100px; margin-bottom: 50px;">
         <form method="post" action="/register">
             <h5> REGISTRO </h5>
             <input class="controls" type="text" name="user" value="" placeholder="Usuario">
             <input class="controls" type="password" name="pass" value="" placeholder="Contraseña">
-            <input class="controls" id="file" onchange="readURL()" type="file" name="photo" value="" placeholder="Foto de perfil" >
             <input class="controls" id="filetext" type="text" name="photourl" value="" placeholder="Foto de perfil" hidden >
             <input class="controls" type="text" name="name" value="" placeholder="Primer nombre" >
             <input class="controls" type="text" name="lastName1" value="" placeholder="Primer apellido" >
             <input class="controls" type="text" name="lastName2" value="" placeholder="Segundo apellido" >
-            <input class="button" type="submit" name="" value="INGRESAR">
+            <label>Fecha de nacimiento: <input type="date" name="birthdate"></label><br>
+            <br><label>Foto de perfil: <input id="file" onchange="readURL()" type="file" name="photo"></label> 
+            <input class="btnRegister" type="submit" name="" value="INGRESAR">
         </form>
         <p> <a href="/">¿Ya tienes cuenta? Iniciar sesión</a></p>
     </div>
 </body>
+
 <script>
     function readURL(){
         var url = document.getElementById('filetext');
@@ -37,4 +39,5 @@
         }
     }
 </script>
+
 </html>

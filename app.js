@@ -84,7 +84,8 @@ app.post('/register', (req, res) => {
                             req.body.photourl, 
                             req.body.name, 
                             req.body.lastName1, 
-                            req.body.lastName2);
+                            req.body.lastName2,
+                            req.body.birthdate);
     res.redirect('/');
 })
 

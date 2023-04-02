@@ -22,6 +22,7 @@ var userSchema = new mongoose.Schema({
   nombre: String,
   apellido1: String,
   apellido2: String,
+  fechaNacimiento: String,
   votes: Array,
 });
 
@@ -44,13 +45,14 @@ var datasetModel = mongoose.model('datasets', datasetSchema);
 class MongooseConsultor{
   constructor(){}
 
-  async insertUser(user, foto, nombre, apellido1, apellido2){
+  async insertUser(user, foto, nombre, apellido1, apellido2, fechaNacimiento){
     var userData = new userModel({
       user: user,
       foto: foto,
       nombre: nombre,
       apellido1: apellido1,
       apellido2: apellido2,
+      fechaNacimiento: fechaNacimiento,
       votes: []
     });
     await userData.save();
