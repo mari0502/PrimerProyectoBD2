@@ -46,9 +46,12 @@
     <header>
         <a href="mainpage">Inicio</a> 
     </header>
-
     <div id="main-block" class="main-block">
         <h1>Usuario: <%- (username) %> </h1>
+        <form action="followuser" method="post">
+            <input type="text" value= "" hidden id="followusrname" name="followusrname" hidden>
+            <input style="width: 30%" id="followbtn" class="buttonCreate" type="submit" name="" value="FOLLOW">
+        </form>
         <form id="form-block" action="/datasetInfo" method="post">
         </form>
     </div>
@@ -57,6 +60,14 @@
 
 <script>
     var datasets = <%- (datasets) %>;
+    document.getElementById("followusrname").value = <%- (username) %>;
+    var followed =  <%- (followed) %>;
+    if(followed){
+        console.log("No se puede seguir");
+        const button = document.querySelector('#followbtn');
+        button.disabled = true;
+        button.value = "FOLLOWING";
+    }
     var i = 0;
     while(datasets[i] != undefined){
         var div = document.createElement('div');

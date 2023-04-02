@@ -1,15 +1,15 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     font-family: Arial, Helvetica, sans-serif;
     background-image: url('/images/fondo-Login.jpg');
 }
 
-header{
+header {
     background: #4dbdc2;
     padding: 15px 10px;
     display: flex;
@@ -18,7 +18,7 @@ header{
     background-color: rgb(77, 189, 194, 1);
 }
 
-h1{
+h1 {
     display: flex;
     color: #ffffff;
     font-size: 38px;
@@ -27,11 +27,11 @@ h1{
     margin-top: 150px;
 }
 
-h1 p{
-   color: #4dbdc2; 
+h1 p {
+    color: #4dbdc2;
 }
 
-button{
+button {
     padding: 9px 30px;
     background-color: rgb(213, 210, 210);
     cursor: pointer;
@@ -40,16 +40,16 @@ button{
     transition: all 0.3s ease 0s;
 }
 
-a button{
+a button {
     align-items: left;
     justify-content: left;
 }
 
-button:hover{
+button:hover {
     background-color: rgb(238, 226, 121);
 }
 
-.box{
+.box {
     height: 150px;
     width: 100%;
     display: flex;
@@ -65,7 +65,7 @@ button:hover{
     border-radius: 0 50px 50px 0;
 }
 
-.box .searchBar{
+.box .searchBar {
     flex: 1;
     border: none;
     outline: none;
@@ -74,19 +74,19 @@ button:hover{
 }
 
 
-.box label{
+.box label {
     font-size: 14px;
     padding-top: 20px;
     padding-right: 5px;
 }
 
-.box input{
+.box input {
     width: 10px;
     margin: 10px;
     padding-left: 15px;
 }
 
-.box a button{
+.box a button {
     padding: 0px;
     width: 35px;
     height: 35px;
@@ -97,18 +97,18 @@ button:hover{
     content: "+";
 }
 
-.box a button:hover{
+.box a button:hover {
     width: 130px;
     height: 55px;
     font-size: 15px;
     background-color: rgb(238, 226, 121);
 }
 
-.box a button:hover::after{
+.box a button:hover::after {
     content: "Crear dataset";
 }
 
-form button{
+form button {
     background: tomato;
     padding: 15px 30px;
     border: none;
@@ -118,24 +118,72 @@ form button{
     border-radius: 0 0 0 0;
 }
 
-form .fa-search{
+form .fa-search {
     align-self: center;
     padding: 10px 20px;
     color: #777;
 }
 
-.navLinks li{
+.navLinks li {
     list-style: none;
     display: inline-block;
     padding: 0px 40px;
 }
 
-.navLinks li a{
+.navLinks li a {
     color: #000000;
     transition: all 0.3s ease 0s;
     text-decoration: none;
 }
 
-.navLinks li a:hover{
+.navLinks li a:hover {
     color: #ffffff;
+}
+
+.notification-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+.notification-button {
+    background-color: #226089;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.notification-list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1;
+    display: none;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-list li {
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+}
+
+.notification-list li:last-child {
+    border-bottom: none;
+}
+
+.notification-wrapper:hover .notification-list {
+    display: block;
 }

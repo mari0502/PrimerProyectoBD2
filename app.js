@@ -88,8 +88,20 @@ app.post('/register', (req, res) => {
     res.redirect('/');
 })
 
-app.get('/mainpage', (req, res) => {
-    res.render('mainpage');
+app.get('/mainpage', async (req, res) => {
+    const notificacions = await rediscons.getUserNotifications(usercreds.user);
+    const keys = Object.keys(notificacions);
+    var nots = [];
+    keys.forEach(key => {
+        var keyvalue = JSON.parse(notificacions[key]).mensaje;
+        var msg = {
+            message: keyvalue
+        }
+        nots.push(msg);
+    });
+    res.render('mainpage', {
+        nots: JSON.stringify(nots)
+    });
 });
 
 app.get('/userprofile', (req, res) => {
@@ -131,9 +143,12 @@ app.post('/newdataset', async (req, res) => {
         decodedData.byteLength,
         req.body.videourl
     );
-
     await neo4jcons.insertDataSet(req.body.name, usercreds.user);
-    
+    const users = await neo4jcons.getUsersFollowingMe(usercreds.user);
+    console.log(users);
+    users.forEach(user => {
+        rediscons.sendNotification(usercreds.user, user);
+    });
     res.redirect('userdatasets');  
 });
 
@@ -148,10 +163,11 @@ app.post('/lookfordataset', async (req,res) =>{
         });
     } else if (typeOf=="user") {
         datasets = await mongoosecons.userDatasets(look);
-        //console.log(datasets);
+        followed = await neo4jcons.getIfUserFollowed(usercreds.user, look);
         res.render('datasetsUser',{
-            username: look,
-            datasets: JSON.stringify(datasets)
+            username: JSON.stringify(look),
+            datasets: JSON.stringify(datasets),
+            followed: followed
         });
     } else{
         res.redirect("mainpage");
@@ -171,4 +187,19 @@ app.post('/datasetInfo', async(req, res) =>{
 app.post('/insertDatasetComment', async(req, res) =>{
     console.log(usercreds.user);
     
+});
+
+app.post('/followuser', async(req,res) => {
+    const userfollow = req.body.followusrname;
+    const userfollowing = usercreds.user;
+    await neo4jcons.addFollowRelation(userfollow, userfollowing);
+    res.render("mainpage", {
+        alert: true,
+        alertTitle: "Success",
+        alertMessage: "Ahora sigues al usuario " + req.body.followusrname,
+        alertIcon: "success",
+        showConfirmButton: true,
+        timer: false,
+        ruta: 'mainpage'
+    });
 });
