@@ -12,3 +12,4 @@ services:
       - ./data:/data
     environment:
       - REDIS_REPLICATION_MODE=master
+      REDIS_PASSWORD: "password"

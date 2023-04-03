@@ -5,7 +5,12 @@ var notificacion = {
     fecha: new Date()
 };
 
-const client = redis.createClient();
+const client = redis.createClient({
+    host: 'localhost',
+    port: 6379,
+    password: 'password'
+});
+
 class RedisConsultant {
     constructor() { }
 
