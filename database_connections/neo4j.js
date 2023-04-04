@@ -44,7 +44,7 @@ class Ne4jConsultor {
             const params = { user: user,
                              userfollowing: userfollowing };
             const res = await session.run(cypher, params);
-            if(res.records[0]._fields[0]){
+            if(res.records.length > 0 && res.records[0]._fields[0]){
                 resolve(true);
             }
             else{

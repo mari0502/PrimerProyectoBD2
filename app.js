@@ -121,9 +121,6 @@ app.post('/modifyprofile', async (req,res) =>{
     res.redirect('mainpage');
 });
 
-app.get('/userdatasets', (req, res) => {
-    res.render('userdatasets');
-});
 
 app.get('/newdataset', (req, res) =>{
     res.render('newdataset');
@@ -150,12 +147,13 @@ app.post('/newdataset', async (req, res) => {
     users.forEach(user => {
         rediscons.sendNotification(usercreds.user, user);
     });
-    res.redirect('userdatasets');  
+    res.redirect('mainpage');  
 });
 
 app.post('/lookfordataset', async (req,res) =>{
     const look = req.body.lookfor;
     const typeOf = req.body.typeofSearch;
+    userprofile = await mongoosecons.getUserProfile(look);
     if (typeOf=="name_description"){
         datasets = await mongoosecons.lookForDatasets(look);
         res.render('datasetsfound',{
@@ -168,7 +166,8 @@ app.post('/lookfordataset', async (req,res) =>{
         res.render('datasetsUser',{
             username: JSON.stringify(look),
             datasets: JSON.stringify(datasets),
-            followed: followed
+            followed: followed,
+            photo: JSON.stringify(userprofile)
         });
     } else{
         res.redirect("mainpage");
@@ -194,7 +193,8 @@ app.post('/followuser', async(req,res) => {
     const userfollow = req.body.followusrname;
     const userfollowing = usercreds.user;
     await neo4jcons.addFollowRelation(userfollow, userfollowing);
-    res.render("mainpage", {
+    res.render("mainpage", { 
+        nots: "Testing",
         alert: true,
         alertTitle: "Success",
         alertMessage: "Ahora sigues al usuario " + req.body.followusrname,
