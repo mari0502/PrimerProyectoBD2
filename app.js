@@ -112,7 +112,7 @@ app.get('/userprofile', (req, res) => {
 });
 
 app.post('/modifyprofile', async (req,res) =>{
-    mongoosecons.updateUserProfile(usercreds.user, 
+    await mongoosecons.updateUserProfile(usercreds.user, 
         req.body.photourl, 
         req.body.name, 
         req.body.lastname1, 
@@ -198,6 +198,34 @@ app.post('/followuser', async(req,res) => {
         alert: true,
         alertTitle: "Success",
         alertMessage: "Ahora sigues al usuario " + req.body.followusrname,
+        alertIcon: "success",
+        showConfirmButton: true,
+        timer: false,
+        ruta: 'mainpage'
+    });
+});
+
+app.get('/mydatasets', async (req, res) => {
+    datasets = await mongoosecons.userDatasets(usercreds.user);
+    res.render('mydatasets',{
+        username: JSON.stringify(usercreds.user),
+        datasets: JSON.stringify(datasets),
+        followed: true,
+        photo: JSON.stringify(userprofile)
+    });
+});
+
+app.post('/clonepost', async(req, res) => {
+    dataset = JSON.parse(req.body.clonedataset);
+    dataset.name = req.body.newname;
+    await mongoosecons.newDataset(dataset.user, dataset.name, dataset.desc,
+                                  Date.now(), dataset.pic, dataset.archive, dataset.size,
+                                  dataset.video);
+    res.render("mainpage", { 
+        nots: "Testing",
+        alert: true,
+        alertTitle: "Success",
+        alertMessage: "Has clonado el dataset con éxito",
         alertIcon: "success",
         showConfirmButton: true,
         timer: false,

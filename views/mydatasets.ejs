@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/mainStyle.css">
+    <link rel="stylesheet" href="../styles/mainPage.css">
+
+    <title>Datasets</title>
+    <link rel="shortcut icon" href="/images/profile.png">
+</head>
+
+<style>
+    h2, h3, p{
+         color:rgb(255, 255, 255);
+     }
+
+     h4{
+        color: #fca311
+     }
+
+    .dynamic-block{
+        text-align: center;
+        border-style: solid;
+        border-color: #aaaaaa;
+        box-shadow: 0px 10px 5px #aaaaaa;
+        padding: 20px;
+        margin-left: 60vh;
+        margin-right: 60vh;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        border-radius: 20px;
+    }
+
+</style>
+
+<body>
+    <header>
+        <ul class="navLinks">
+            <li><a href="mainpage">Inicio</a></li>
+            <li><a href="userprofile">Mi perfil</a></li>
+            <li><a href="#">Acerca de</a></li>
+        </ul>
+        <a href="/"><button>Cerrar Sesión</button></a>
+    </header>
+
+    <div id="main-block" class="main-block">
+        <h1 class="username">
+            <img src="" alt="Foto de perfil" id="photodisplay" width="250" height="250">&nbsp;Usuario: <%- (username) %>
+        </h1>  
+        <form class="datasetStyle" id="form-block" action="/datasetInfo" method="post">
+        </form>
+    </div>
+</body>
+
+<script>
+    var datasets = <%- (datasets) %>;
+
+    var i = 0;
+    while(datasets[i] != undefined){
+        var div = document.createElement('div');
+        div.className = "dynamic-block";
+        var h3 = document.createElement('h3');
+        var description = document.createElement('p');
+        var btn = document.createElement('button');
+        div.appendChild(h3);
+        div.appendChild(description);
+        div.appendChild(btn);
+        h3.textContent = "Nombre del archivo: " + datasets[i].name;
+        description.textContent = "Descripción: " + datasets[i].desc;
+        btn.textContent = "Más información";
+        btn.value=datasets[i]._id;
+        btn.type = "submit";
+        btn.name = "btn";
+
+        var btn2 = document.createElement('button');
+        var form = document.createElement('form');
+        form.method = "post";
+        form.className = "datasetStyle";
+        form.action = "/clonepost";
+        var newname = document.createElement('input');
+        newname.name = 'newname';
+        newname.type = 'text';
+        newname.placeholder = 'Nuevo nombre para clonar el dataset';
+        btn2.value=JSON.stringify(datasets[i]);
+        btn2.textContent = "Clonar";
+        btn2.type = "submit";
+        btn2.name = "clonedataset";
+        var br = document.createElement('br');
+        form.appendChild(newname);
+        form.appendChild(br);
+        form.appendChild(btn2);
+        div.appendChild(form);
+
+        document.getElementById('form-block').appendChild(div);
+
+        i++
+    }
+
+    var photo = <%- (photo) %>;
+    document.getElementById('photodisplay').src = photo.foto;
+</script>
+</html>
