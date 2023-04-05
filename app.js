@@ -17,6 +17,7 @@ var usercreds = {
     user: undefined,
     pass: undefined
 }
+var datasetID = 0;
 
 var userprofile = {};
 
@@ -172,26 +173,37 @@ app.post('/lookfordataset', async (req,res) =>{
         res.redirect("mainpage");
     }
 });
-
 app.post('/datasetInfo', async(req, res) =>{
-    const datasetId = req.body.btn;
-    var downloads = "undefined";
-    datasetF = await mongoosecons.specificDataset(datasetId);
+
+    datasetID = req.body.btn;
+    datasetF = await mongoosecons.specificDataset(datasetID);
     dataset = datasetF[0];
-    if(usercreds.user == dataset.user){
-        downloads = await neo4jcons.getDatasetDownloads(dataset.name);
-    }
-    console.log(downloads);
+    datasetComments = dataset.comments;
     res.render('datasetInfo',{
         datasetname: dataset.name,
         dataset: JSON.stringify(dataset),
-        downloads: JSON.stringify(downloads)
+        datasetComments: JSON.stringify(datasetComments)
     });
 });
-
 app.post('/insertDatasetComment', async(req, res) =>{
-    console.log(usercreds.user);
-    
+    var newComment = req.body.comment;
+    var userComment = {
+        user: usercreds.user,
+        comment: newComment,
+        answer: []
+    }
+    mongoosecons.newComment(datasetID, userComment);
+    res.redirect("mainpage");
+});
+
+app.post('/insertCommentOfComment', async(req, res) =>{
+    var newComment = req.body.commentOfComment;
+    var userComment = {
+        user: usercreds.user,
+        comment: newComment,
+    }
+    mongoosecons.newCommentOfComment(datasetID, req.body.btnCommentOfComment, userComment);
+    res.redirect("mainpage");
 });
 
 app.post('/followuser', async(req,res) => {

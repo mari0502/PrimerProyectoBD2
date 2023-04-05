@@ -20,7 +20,7 @@
         color: #fca311
      }
 
-    .dynamic-block{
+    .dynamic-block, .comment-block{
         text-align: center;
         border-style: solid;
         border-color: #aaaaaa;
@@ -39,6 +39,9 @@
         border-radius: 5px;
         width: 40%;
     }
+    #commentOfComment, #comment{
+        resize: none;
+    }
 
 
 </style>
@@ -48,33 +51,43 @@
     </header>
 
     <div id="main-block" class="main-block">
-        <form id="form-block" action="/" method="post">
+        <form id="form-block" action="/insertDatasetComment" method="post">
         </form>
         <form id="new-comment" action="/insertDatasetComment" method="post">
             <div style="display: flex; width: 40%; height: 20%;">
                 <textarea name="" id="" cols="50" rows="5" placeholder="¿Qué te pareció este dataset?" style="resize: none;"></textarea>
                 <button type="submit" style="width: 15%; height: 60px;">SUBMIT</button>
             </div>
+        <form id="commentOfComment-block" action="/insertCommentOfComment" method="post">
+
         </form>
     </div>
 </body>
-
 
 <script>
     var dataset = <%- (dataset) %>;
     var downloads =  <%- (downloads) %>;
     var div = document.createElement('div');
     div.className = "dynamic-block";
+    var h4 = document.createElement('h4');
     var h3 = document.createElement('h3');
     var description = document.createElement('p');
     var date = document.createElement('p');
     var size = document.createElement('p');
     var user = document.createElement('p');
+    var comment = document.createElement('textarea');
+    var btnSubmit = document.createElement('button');
+
+    div.appendChild(h4);
     div.appendChild(h3);
     div.appendChild(description);
     div.appendChild(date);
     div.appendChild(size);
     div.appendChild(user);
+    div.appendChild(comment);
+    div.appendChild(btnSubmit);
+
+    h4.textContent = "ID: " + dataset._id;
     h3.textContent = "Nombre del archivo: " + dataset.name;
     description.textContent = "Descripción: " + dataset.desc;
     date.textContent = "Fecha de Creacion: " + dataset.date;
@@ -101,6 +114,67 @@
     form.appendChild(datasetname);
     form.appendChild(btn2);
     div.append(form);
+    btnSubmit.textContent = "SUBMIT";
+
+    comment.name = "comment";
+    comment.id = "comment";                                      
+    comment.cols = "50";
+    comment.rows= "5";
+    comment.placeholder = "¿Qué te pareció este dataset?"; 
+    btnSubmit.value = dataset._id;
+    btnSubmit.type = "submit";
+    btnSubmit.name = "btn";
     document.getElementById('form-block').appendChild(div);
+</script>
+
+<script>
+    var comments = <%- (datasetComments) %>;
+    var i = 0;
+    while(comments[i] != undefined){
+        var divComment = document.createElement('div');
+        divComment.className = "comment-block";
+        var h3 = document.createElement('h3');
+        var description = document.createElement('p');
+        var commentOfComment = document.createElement('textarea');
+        var btnCommentofComment = document.createElement('button');
+
+        divComment.appendChild(h3);
+        divComment.appendChild(description);
+        divComment.appendChild(commentOfComment);
+        divComment.appendChild(btnCommentofComment);
+
+        h3.textContent = "Nombre del usuario: " + comments[i].user;
+        description.textContent = "Comentario: " + comments[i].comment;
+        btnCommentofComment.textContent = "SUBMIT";
+
+        btnCommentofComment.value = i;
+        btnSubmit.type = "submit";
+        btnCommentofComment.name = "btnCommentOfComment";
+
+        commentOfComment.id = "commentOfComment"
+        commentOfComment.name = "commentOfComment";
+        commentOfComment.cols = "30";
+        commentOfComment.rows= "2";
+        commentOfComment.placeholder = "Responder.."; 
+
+
+        var titleh3 = document.createElement('h3');
+        divComment.appendChild(titleh3);
+        titleh3.textContent = "Comentarios";
+
+
+        var j = 0;
+        while(comments[i].answer[j] != undefined){
+            var comment = document.createElement('p');
+            divComment.appendChild(comment);
+            comment.textContent = "Nombre: "+ comments[i].answer[j].user + " Comentario: " + comments[i].answer[j].comment;
+            j++;
+        }
+
+
+
+        document.getElementById('commentOfComment-block').appendChild(divComment);
+        i++;
+    }
 </script>
 </html>

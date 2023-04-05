@@ -108,8 +108,12 @@ class MongooseConsultor{
       resolve(reply);
     });
   }
-  async newComment (datasetID){
-    await userModel.findOneAndUpdate(datasetID, comment);
+  async newComment (datasetID, commentArray){
+    await datasetModel.updateOne({_id: datasetID}, {$push: {comments:commentArray}});
+  }
+
+  async newCommentOfComment (datasetID, numArray, commentArray){
+    await datasetModel.updateOne({_id: datasetID}, {$push: {'comments.0.answer' : commentArray}});
   }
 
 
