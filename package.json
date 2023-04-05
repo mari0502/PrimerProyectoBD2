@@ -20,6 +20,7 @@
   "homepage": "https://github.com/mari0502/PrimerProyectoBD2#readme",
   "dependencies": {
     "archiver": "^5.3.1",
+    "bcryptjs": "^2.4.3",
     "buffer": "^6.0.3",
     "ejs": "^3.1.8",
     "express": "^4.18.2",

@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const bcrypt = require("bcryptjs");
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -20,12 +21,19 @@ class MysqlConsultor {
 
   insertUser(user, pass) {
     //To do: add salt complex
-    var salt = pass + "me";
+    var salt = "";
     var sql = 'INSERT INTO user values (?, ?, ?)';
-    connection.query(sql, [user, pass, salt], function (err, res, fields) {
+
+    bcrypt.hash(pass, 10, (err, salt) => {
+      connection.query(sql, [user, pass, salt], function (err, res, fields) {
+        if (err) {
+          console.log(err);
+          return err;
+        }
+      });
+      
       if (err) {
-        console.log(err);
-        return err;
+        console.log("Error: ", err);
       }
     });
   }
@@ -39,7 +47,19 @@ class MysqlConsultor {
         ],
         function (error, results, fields) {
           if (results[0]) {
-            resolve(results[0]);
+            bcrypt.compare(pass, results[0].salt, (err, match) => {
+              if (err) {
+                console.log("Error comprobando:", err);
+              } else {
+                if(match){ 
+                  resolve(results[0]); 
+                }
+                else{
+                  resolve(false);
+                }
+                //console.log("¿La contraseña coincide?: " + match);
+              }
+            });
           }
           else {
             resolve(false);
