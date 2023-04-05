@@ -65,6 +65,22 @@ class Ne4jConsultor {
             resolve(users);
         });
     }
+
+    async userDownloadsDataset(datasetname, user){
+        const cypher = "MATCH (a:USER),(b:DATASET) WHERE a.user = $user AND b.name = $datasetname CREATE (a)-[r:DOWNLOADS]->(b) RETURN type(r)";
+        const params = { user: user,
+                         datasetname: datasetname };
+        const res = await session.run(cypher, params);
+    }
+
+    async getDatasetDownloads(datasetname){
+        return new Promise(async function (resolve, reject) {
+            const cypher = "MATCH (u:USER)-[r:DOWNLOADS]->(d:DATASET) where d.name = $datasetname RETURN SIZE(collect(r)) AS num_relations";
+            const params = { datasetname: datasetname};
+            const res = await session.run(cypher, params);
+            resolve(res.records[0].get("num_relations").low);
+        });
+    }
 }
 
 module.exports = Ne4jConsultor;

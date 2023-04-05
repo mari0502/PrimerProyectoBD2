@@ -1,8 +1,9 @@
 const express = require('express');
 const request = require('request');
 const { Buffer } = require('buffer');
+const fs = require('fs');
 const path = require('path');
-const Fs = require('fs/promises');
+const multer = require('multer');
 const MongooseConsultor = require('./database_connections/mongo');
 const Ne4jConsultor = require('./database_connections/neo4j');
 const RedisConsultant = require('./database_connections/redis');
@@ -19,14 +20,15 @@ var usercreds = {
 
 var userprofile = {};
 
-async function fileSize (path) {  
-    return new Promise(async function(resolve, reject){
-        const stats = await Fs.stat(path)  
-        resolve(stats.size);
-      });
-}
-
 const app = express();
+
+
+
+const upload = multer({ dest: './server/uploads' },{
+    limits: {
+        fieldSize: 1024 * 1024 * 50, // 10MB
+      },
+    });
 app.set('view engine', 'ejs');
 //utilizar .ejs para las views en el folder de views
 app.set('views', path.join(__dirname, 'views'));
@@ -126,19 +128,16 @@ app.get('/newdataset', (req, res) =>{
     res.render('newdataset');
 });
 
-app.post('/newdataset', async (req, res) => {
-    const dataStartIndex = req.body.archiveurl.indexOf(',') + 1; // find the index of the comma separating the data type from the actual data
-    const encodedData = req.body.archiveurl.substring(dataStartIndex);
-    const decodedData = Buffer.from(encodedData, 'base64');
-
+app.post('/newdataset', upload.single('archive'),async (req, res) => {
+    const file = req.file;
     await mongoosecons.newDataset(
         usercreds.user,
         req.body.name,
         req.body.desc,
         Date.now(),
         req.body.photourl,
-        req.body.archiveurl,
-        decodedData.byteLength,
+        fs.readFileSync(file.path),
+        file.size,
         req.body.videourl
     );
     await neo4jcons.insertDataSet(req.body.name, usercreds.user);
@@ -176,11 +175,17 @@ app.post('/lookfordataset', async (req,res) =>{
 
 app.post('/datasetInfo', async(req, res) =>{
     const datasetId = req.body.btn;
+    var downloads = "undefined";
     datasetF = await mongoosecons.specificDataset(datasetId);
     dataset = datasetF[0];
+    if(usercreds.user == dataset.user){
+        downloads = await neo4jcons.getDatasetDownloads(dataset.name);
+    }
+    console.log(downloads);
     res.render('datasetInfo',{
         datasetname: dataset.name,
-        dataset: JSON.stringify(dataset)
+        dataset: JSON.stringify(dataset),
+        downloads: JSON.stringify(downloads)
     });
 });
 
@@ -231,4 +236,17 @@ app.post('/clonepost', async(req, res) => {
         timer: false,
         ruta: 'mainpage'
     });
+});
+
+app.post('/downloaddataset', async(req, res) => {
+    const datasetname = req.body.datasetname;
+    await neo4jcons.userDownloadsDataset(datasetname, usercreds.user);
+    // Set the response headers to indicate a file download
+    res.set({
+        'Content-Disposition': 'attachment; filename="data.csv"',
+        'Content-Type': 'text/csv'
+    });
+
+    // Send the base64-encoded CSV data as the response body
+    res.send(req.body.dataset);
 });

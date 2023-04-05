@@ -20,7 +20,7 @@
     </header>
 
     <div class="form_Login" style="width:500px; height: 460px;  margin-top: 110px">
-        <form method="post" action="/newdataset">
+        <form method="post" action="/newdataset" enctype="multipart/form-data">
             <h5> CREAR NUEVO DATASET </h5>
             <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre">
             <textarea class="controlDescription" name="desc" id="desc" placeholder="Descripción" maxlength='1000' minlength='10'></textarea>
@@ -30,8 +30,7 @@
             <input type="text" name="photourl" id="photourl" hidden>
 
             <label for="archive">Seleccione datasets a subir:</label><br>
-            <input class="lblDatasets" type="file" onchange="readArchiveURL()" name="archive" id="archive"><br>
-            <input type="text" name="archiveurl" id="archiveurl" hidden>
+            <input class="lblDatasets" type="file" name="archive" id="archive"><br>
 
             <label for="video">Agregue tutorial:</label><br>
             <input type="file" onchange="readVideoURL()" name="video" id="video"><br>
@@ -47,18 +46,6 @@
             reader.addEventListener("load", () => {
                 // convert image file to base64 string
                 document.getElementById('photourl').value = reader.result;
-            }, false);
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function readArchiveURL(){
-            const file = document.getElementById('archive').files[0];
-            const reader = new FileReader();
-            reader.addEventListener("load", () => {
-                // convert image file to base64 string
-                document.getElementById('archiveurl').value = reader.result;
             }, false);
             if (file) {
                 reader.readAsDataURL(file);
