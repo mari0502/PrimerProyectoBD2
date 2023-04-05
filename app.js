@@ -16,6 +16,7 @@ var usercreds = {
     user: undefined,
     pass: undefined
 }
+var datasetID = 0;
 
 var userprofile = {};
 
@@ -148,7 +149,6 @@ app.post('/lookfordataset', async (req,res) =>{
         });
     } else if (typeOf=="user") {
         datasets = await mongoosecons.userDatasets(look);
-        console.log(datasets);
         res.render('datasetsUser',{
             username: look,
             datasets: JSON.stringify(datasets)
@@ -157,18 +157,34 @@ app.post('/lookfordataset', async (req,res) =>{
         res.redirect("mainpage");
     }
 });
-
 app.post('/datasetInfo', async(req, res) =>{
-    const datasetId = req.body.btn;
-    datasetF = await mongoosecons.specificDataset(datasetId);
+    datasetID = req.body.btn;
+    datasetF = await mongoosecons.specificDataset(datasetID);
     dataset = datasetF[0];
+    datasetComments = dataset.comments;
     res.render('datasetInfo',{
         datasetname: dataset.name,
-        dataset: JSON.stringify(dataset)
+        dataset: JSON.stringify(dataset),
+        datasetComments: JSON.stringify(datasetComments)
     });
 });
-
 app.post('/insertDatasetComment', async(req, res) =>{
-    console.log(usercreds.user);
-    
+    var newComment = req.body.comment;
+    var userComment = {
+        user: usercreds.user,
+        comment: newComment,
+        answer: []
+    }
+    mongoosecons.newComment(datasetID, userComment);
+    res.redirect("mainpage");
+});
+
+app.post('/insertCommentOfComment', async(req, res) =>{
+    var newComment = req.body.commentOfComment;
+    var userComment = {
+        user: usercreds.user,
+        comment: newComment,
+    }
+    mongoosecons.newCommentOfComment(datasetID, req.body.btnCommentOfComment, userComment);
+    res.redirect("mainpage");
 });
