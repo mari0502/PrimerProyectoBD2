@@ -176,13 +176,19 @@ app.post('/lookfordataset', async (req,res) =>{
 app.post('/datasetInfo', async(req, res) =>{
 
     datasetID = req.body.btn;
+    var downloads = "undefined";
     datasetF = await mongoosecons.specificDataset(datasetID);
     dataset = datasetF[0];
     datasetComments = dataset.comments;
+    if(usercreds.user == dataset.user){
+        downloads = await neo4jcons.getDatasetDownloads(dataset.name);
+    }
+    console.log(downloads);
     res.render('datasetInfo',{
         datasetname: dataset.name,
         dataset: JSON.stringify(dataset),
-        datasetComments: JSON.stringify(datasetComments)
+        datasetComments: JSON.stringify(datasetComments),
+        downloads: JSON.stringify(downloads)
     });
 });
 app.post('/insertDatasetComment', async(req, res) =>{
