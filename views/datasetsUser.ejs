@@ -53,10 +53,9 @@
         <form action="/followuser" method="post">
             <input type="text" value= "" hidden id="followusrname" name="followusrname" hidden>
             <button style="width: 10%;margin:auto;margin-left:390px;" id="followbtn">FOLLOW</button>
-              
-            <form>
-            <button style="width: fit-content;margin:auto;margin-left:40px;height: fit-content;" id="sendMessage">ENVIAR MENSAJE</button>
-            </form>
+        </form>
+        <form action="/newmsg" method="post">
+            <button style="width: fit-content;margin:auto;margin-left:40px;height: fit-content;" name="usermsg" id="sendMessage">ENVIAR MENSAJE</button>
         </form>
 
         <form class="datasetStyle" id="form-block" action="/datasetInfo" method="post"></form>
@@ -66,6 +65,7 @@
 <script>
     var datasets = <%- (datasets) %>;
     document.getElementById("followusrname").value = <%- (username) %>;
+    document.getElementById("sendMessage").value =  <%- (username) %>;
     var followed =  <%- (followed) %>;
     if(followed){
         console.log("No se puede seguir");
