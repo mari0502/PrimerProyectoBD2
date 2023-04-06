@@ -20,6 +20,8 @@ var usercreds = {
 
 var userprofile = {};
 
+var usernots = [];
+
 const app = express();
 
 
@@ -102,6 +104,7 @@ app.get('/mainpage', async (req, res) => {
         }
         nots.push(msg);
     });
+    usernots = nots;
     res.render('mainpage', {
         nots: JSON.stringify(nots)
     });
@@ -116,7 +119,7 @@ app.get('/userprofile', (req, res) => {
 app.post('/modifyprofile', async (req,res) =>{
     await mongoosecons.updateUserProfile(usercreds.user, 
         req.body.photourl, 
-        req.body.name, 
+        req.body.name,
         req.body.lastname1, 
         req.body.lastname2);
     userprofile = await mongoosecons.getUserProfile(usercreds.user);
@@ -128,17 +131,17 @@ app.get('/newdataset', (req, res) =>{
     res.render('newdataset');
 });
 
-app.post('/newdataset', upload.single('archive'),async (req, res) => {
-    const file = req.file;
+app.post('/newdataset', upload.array('archive'),async (req, res) => {
+    const files = req.files;
     await mongoosecons.newDataset(
         usercreds.user,
         req.body.name,
         req.body.desc,
         Date.now(),
-        req.body.photourl,
-        fs.readFileSync(file.path),
-        file.size,
-        req.body.videourl
+        fs.readFileSync(files[0].path),
+        fs.readFileSync(files[1].path),
+        files[1].size,
+        fs.readFileSync(files[2].path)
     );
     await neo4jcons.insertDataSet(req.body.name, usercreds.user);
     const users = await neo4jcons.getUsersFollowingMe(usercreds.user);
@@ -199,7 +202,7 @@ app.post('/followuser', async(req,res) => {
     const userfollowing = usercreds.user;
     await neo4jcons.addFollowRelation(userfollow, userfollowing);
     res.render("mainpage", { 
-        nots: "Testing",
+        nots: JSON.stringify(usernots),
         alert: true,
         alertTitle: "Success",
         alertMessage: "Ahora sigues al usuario " + req.body.followusrname,
@@ -227,7 +230,7 @@ app.post('/clonepost', async(req, res) => {
                                   Date.now(), dataset.pic, dataset.archive, dataset.size,
                                   dataset.video);
     res.render("mainpage", { 
-        nots: "Testing",
+        nots: JSON.stringify(usernots),
         alert: true,
         alertTitle: "Success",
         alertMessage: "Has clonado el dataset con éxito",
@@ -249,4 +252,84 @@ app.post('/downloaddataset', async(req, res) => {
 
     // Send the base64-encoded CSV data as the response body
     res.send(req.body.dataset);
+});
+
+app.post('/newmsg', async(req, res) => {
+    res.render('newmsg', {
+        user: JSON.stringify(req.body.usermsg)
+    })
+});
+
+app.post('/sendmsg', async(req, res) =>{
+    await mongoosecons.newMessage(usercreds.user,req.body.user,req.body.msg);
+    res.render('mainpage', {
+        nots: JSON.stringify(usernots),
+        alert: true,
+        alertTitle: "Success",
+        alertMessage: "Mensaje enviado",
+        alertIcon: "success",
+        showConfirmButton: true,
+        timer: false,
+        ruta: 'mainpage'
+    });
+});
+
+app.get('/usermgs', async(req, res) => {
+    var msgs = await mongoosecons.getUserMessages(usercreds.user);
+    var users = [];
+    msgs.forEach(msg => {
+        if(msg.user1 == usercreds.user){
+            users.push(msg.user2);
+        }
+        else{
+            users.push(msg.user1);
+        }
+    });
+    res.render('usermsgs', {
+        users: JSON.stringify(users),
+        messages: JSON.stringify({}),
+        userreply: JSON.stringify("")
+    })
+});
+
+app.post('/getmessages', async(req, res) => {
+    var msgs = await mongoosecons.getUserMessages(usercreds.user);
+    var smgs = await mongoosecons.getSpecificUsersMessages(usercreds.user, req.body.username);
+    var users = [];
+    var messages = smgs.messages;
+    msgs.forEach(msg => {
+        if(msg.user1 == usercreds.user){
+            users.push(msg.user2);
+        }
+        else{
+            users.push(msg.user1);
+        }
+    });
+    res.render('usermsgs', {
+        users: JSON.stringify(users),
+        messages: JSON.stringify(messages),
+        userreply: JSON.stringify(req.body.username)
+    })
+});
+
+app.post('/replymsg', async(req, res) => {
+    console.log("Hola " , req.body.userreply);
+    await mongoosecons.replyMessage(usercreds.user, req.body.userreply, req.body.reply);
+    var msgs = await mongoosecons.getUserMessages(usercreds.user);
+    var smgs = await mongoosecons.getSpecificUsersMessages(usercreds.user, req.body.userreply);
+    var users = [];
+    var messages = smgs.messages;
+    msgs.forEach(msg => {
+        if(msg.user1 == usercreds.user){
+            users.push(msg.user2);
+        }
+        else{
+            users.push(msg.user1);
+        }
+    });
+    res.render('usermsgs', {
+        users: JSON.stringify(users),
+        messages: JSON.stringify(messages),
+        userreply: JSON.stringify(req.body.userreply)
+    })
 });

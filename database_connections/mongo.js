@@ -40,8 +40,16 @@ var datasetSchema = new mongoose.Schema({
   video: String,
   comments: Array
 });
+
+var msgSchema = new mongoose.Schema({
+  user1: String,
+  user2: String,
+  messages: Array
+});
+
 var userModel = mongoose.model('users', userSchema)
 var datasetModel = mongoose.model('datasets', datasetSchema);
+var msgModel = mongoose.model('msgs', msgSchema);
 class MongooseConsultor{
   constructor(){}
 
@@ -112,7 +120,47 @@ class MongooseConsultor{
     await userModel.findOneAndUpdate(datasetID, comment);
   }
 
+  async newMessage(user1, user2, msg){
+    var msgData = new msgModel({
+      user1: user1,
+      user2: user2,
+      messages: [msg]
+    });
+    await msgData.save();
+  }
 
+  async replyMessage(user1, user2, msg){
+    const res1 =  await msgModel.findOne({user1: user1, user2:user2});
+    const res2 = await msgModel.findOne({user1: user2, user2:user1});
+    if(res1){
+      res1.messages.push(msg);
+      await msgModel.findOneAndUpdate({user1: user1, user2:user2}, res1);
+    }
+    else{
+      res2.messages.push(msg);
+      await msgModel.findOneAndUpdate({user1: user2, user2:user1}, res2);
+    }
+  }
+
+  async getUserMessages(user){
+    return new Promise(async function(resolve, reject){
+      const res =  await msgModel.find({$or :[{user1: user}, {user2:user}]});
+      resolve(res);
+    });
+  }
+
+  async getSpecificUsersMessages(user1, user2){
+    return new Promise(async function(resolve, reject){
+      const res1 =  await msgModel.findOne({user1: user1, user2:user2});
+      const res2 = await msgModel.findOne({user1: user2, user2:user1});
+      if(res1){
+        resolve(res1);
+      }
+      else{
+        resolve(res2); 
+      }
+    });
+  }
 }
 
 module.exports = MongooseConsultor;

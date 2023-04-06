@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/mainStyle.css">
+    <link rel="stylesheet" href="../styles/mainPage.css">
+
+    <title>Mi perfil</title>
+    <link rel="shortcut icon" href="/images/profile.png">
+</head>
+<body>
+
+    <header>
+        <ul class="navLinks">
+            <li><a href="mainpage">Inicio</a></li>
+            <li><a href="userprofile">Mi perfil</a></li>
+            <li><a href="#">Acerca de</a></li>
+        </ul>
+        <a href="/"><button>Cerrar Sesión</button></a>
+    </header>
+    <form style="display: flex;" action="sendmsg" method="post">
+        <h2 style="color:white">Para: <%- (user) %></h2><br>
+        <input type="text" name="user" hidden value="" id="user">
+        <input style="width: 40%;line-height: 90px;" type="text" name="msg" value="" placeholder="Ingrese el mensaje">
+        <button type="submit">ENVIAR</button>
+    </form>
+    </div>
+
+<script>
+    var user = <%- (user) %>;
+    document.getElementById("user").value = user;
+</script>
+
+<script src= "//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<% if(typeof alert != "undefined") { %>
+    <script>
+        Swal.fire({
+            title: '<%= alertTitle %>',
+            text: '<%= alertMessage %>',
+            icon: '<%= alertIcon %>',
+            showConfirmButton: <%= showConfirmButton %>,
+            timer: <%= timer %>
+        });
+</script>
+    <% } %>
+
+</body>
+</html>

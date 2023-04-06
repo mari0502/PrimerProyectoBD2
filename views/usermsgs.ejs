@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/mainPage.css">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js" crossorigin="anonymous"></script>
+    <title>Página Principal</title>
+    <link rel="shortcut icon" href="/images/mainPage.png">
+</head>
+
+<body>
+    <header>
+        <ul class="navLinks">
+            <li><a href="mainpage">Inicio</a></li>
+            <li><a href="userprofile">Mi perfil</a></li>
+            <li><a href="#">Acerca de</a></li>
+
+        <a href="/"><button>Cerrar Sesión</button></a>
+    </header>
+
+    <div id="users">
+    </div>
+    <br>
+    <div style="background-color: white;" id="messages">
+    </div>
+    <div id="replydiv">
+        <form action="replymsg" method="post">
+            <input style="width: 40%;line-height: 90px;" type="text" name="reply" placeholder="Ingrese su respuesta" value=""><br>
+            <button id="userreply" name="userreply" type="submit">RESPONDER</button>
+        </form>
+    </div>
+    <script>
+        var users = <%- (users) %>;
+        var messages = <%- (messages) %>;
+        document.getElementById("userreply").value = <%- (userreply) %>;
+        console.log(<%- (userreply) %>);
+        users.forEach(user => {
+            var userform = document.createElement('form');
+            userform.method = "post";
+            userform.action = "getmessages";
+            var username = document.createElement('button');
+            username.textContent = user;
+            username.value = user;
+            username.name = "username";
+            userform.appendChild(username);
+            document.getElementById('users').appendChild(userform);
+        });
+
+        messages.forEach(msg => {
+            var p = document.createElement('p');
+            var br = document.createElement('br');
+            p.textContent = msg;
+            document.getElementById('messages').appendChild(p);
+            document.getElementById('messages').appendChild(br);
+        });
+    </script>
+    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <% if(typeof alert !="undefined" ) { %>
+        <script>
+            Swal.fire({
+                title: '<%= alertTitle %>',
+                text: '<%= alertMessage %>',
+                icon: '<%= alertIcon %>',
+                showConfirmButton: <%= showConfirmButton %>,
+                timer: <%= timer %>
+        });
+        </script>
+        <% } %>
+</body>
+
+</html>
