@@ -53,11 +53,6 @@
     <div id="main-block" class="main-block">
         <form id="form-block" action="/insertDatasetComment" method="post">
         </form>
-        <form id="new-comment" action="/insertDatasetComment" method="post">
-            <div style="display: flex; width: 40%; height: 20%;">
-                <textarea name="" id="" cols="50" rows="5" placeholder="¿Qué te pareció este dataset?" style="resize: none;"></textarea>
-                <button type="submit" style="width: 15%; height: 60px;">SUBMIT</button>
-            </div>
         <form id="commentOfComment-block" action="/insertCommentOfComment" method="post">
 
         </form>
@@ -124,6 +119,70 @@
     btnSubmit.value = dataset._id;
     btnSubmit.type = "submit";
     btnSubmit.name = "btn";
+
+
+
+    var radio1 = document.createElement('input');
+    var radio2 = document.createElement('input');
+    var radio3 = document.createElement('input');
+    var radio4 = document.createElement('input');
+    var radio5 = document.createElement('input');
+
+    var label1 = document.createElement('label');
+    var label2 = document.createElement('label');
+    var label3 = document.createElement('label');
+    var label4 = document.createElement('label');
+    var label5 = document.createElement('label');
+    
+
+    label1.textContent = "1";
+    label1.htmlFor = 'radio1';
+    label2.textContent = "2";
+    label2.htmlFor = 'radio2';
+    label3.textContent = "3";
+    label3.htmlFor = 'radio3';
+    label4.textContent = "4";
+    label4.htmlFor = 'radio4';
+    label5.textContent = "5";
+    label5.htmlFor = 'radio5';
+
+    radio1.name = "vote";
+    radio2.name = "vote";
+    radio3.name = "vote";
+    radio4.name = "vote";
+    radio5.name = "vote";
+
+    radio1.value = "1";
+    radio2.value = "2";
+    radio3.value = "3";
+    radio4.value = "4";
+    radio5.value = "5";
+
+    radio1.id = 'radio1';
+    radio2.id = 'radio2';
+    radio3.id = 'radio3';
+    radio4.id = 'radio4';
+    radio5.id = 'radio5';
+
+
+    radio1.type = "radio";
+    radio2.type = "radio";
+    radio3.type = "radio";
+    radio4.type = "radio";
+    radio5.type = "radio";
+
+    div.appendChild(radio1);
+    div.appendChild(radio2);
+    div.appendChild(radio3);
+    div.appendChild(radio4);
+    div.appendChild(radio5);
+
+    div.appendChild(label1);
+    div.appendChild(label2);
+    div.appendChild(label3);
+    div.appendChild(label4);
+    div.appendChild(label5);
+    
     document.getElementById('form-block').appendChild(div);
 </script>
 
@@ -143,7 +202,7 @@
         divComment.appendChild(commentOfComment);
         divComment.appendChild(btnCommentofComment);
 
-        h3.textContent = "Nombre del usuario: " + comments[i].user;
+        h3.textContent = "Nombre del usuario: " + comments[i].user + " Calificacion: " +comments[i].vote;
         description.textContent = "Comentario: " + comments[i].comment;
         btnCommentofComment.textContent = "SUBMIT";
 

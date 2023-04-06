@@ -196,12 +196,19 @@ app.post('/datasetInfo', async(req, res) =>{
 });
 app.post('/insertDatasetComment', async(req, res) =>{
     var newComment = req.body.comment;
+    var datasetVote = req.body.vote;
+    console.log (datasetVote);
     var userComment = {
         user: usercreds.user,
         comment: newComment,
+        vote: datasetVote,
         answer: []
     }
-    mongoosecons.newComment(datasetID, userComment);
+    var userVote = {
+        datasetID: datasetID,
+        vote: datasetVote
+    }
+    mongoosecons.newComment(usercreds.user, datasetID, userComment, userVote);
     res.redirect("mainpage");
 });
 
