@@ -1,5 +1,6 @@
-const mysql = require('mysql2');
-const bcrypt = require("bcryptjs");
+const mysql = require('mysql');
+const crypto = require('crypto');
+//const bcrypt = require("bcryptjs");
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -16,50 +17,60 @@ connection.connect((err) => {
   }
 });
 
+function encrypt(text, key){
+  var cipher = crypto.createCipher('aes-256-cbc', key)
+  var crypted = cipher.update(text,'utf8','hex')
+  crypted += cipher.final('hex');
+  return crypted;
+}
+
+function decrypt(text, key){
+  var decipher = crypto.createDecipher('aes-256-cbc', key)
+  var dec = decipher.update(text,'hex','utf8')
+  dec += decipher.final('utf8');
+  return dec;
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+}
+
 class MysqlConsultor {
   constructor() { }
 
   insertUser(user, pass) {
-    //To do: add salt complex
-    var salt = "";
+    var random = getRandomInt(1000,9999).toString();
+    var salt = pass + random;
+    var passEnc = encrypt(pass, random);
     var sql = 'INSERT INTO user values (?, ?, ?)';
 
-    bcrypt.hash(pass, 10, (err, salt) => {
-      connection.query(sql, [user, pass, salt], function (err, res, fields) {
-        if (err) {
-          console.log(err);
-          return err;
-        }
-      });
-      
+    connection.query(sql, [user, passEnc, salt], function (err, res, fields) {
       if (err) {
-        console.log("Error: ", err);
+        console.log(err);
+        return err;
       }
     });
   }
 
   async login(user, pass) {
     return new Promise(function (resolve, reject) {
-      connection.query('SELECT * FROM `user` where `user` = ? and `pass` = ?',
+      connection.query('SELECT * FROM `user` where `user` = ?',
         [
-          user,
-          pass
+          user
         ],
         function (error, results, fields) {
           if (results[0]) {
-            bcrypt.compare(pass, results[0].salt, (err, match) => {
-              if (err) {
-                console.log("Error comprobando:", err);
-              } else {
-                if(match){ 
-                  resolve(results[0]); 
-                }
-                else{
-                  resolve(false);
-                }
-                //console.log("¿La contraseña coincide?: " + match);
-              }
-            });
+            var salt = results[0].salt;
+            var passEnc = results[0].pass;
+
+            if(pass == decrypt(passEnc, salt.substring(salt.length - 4))){
+              resolve(results[0]);
+            }
+            else{
+              resolve(false);
+            }
           }
           else {
             resolve(false);
