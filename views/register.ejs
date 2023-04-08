@@ -11,14 +11,14 @@
     <div class="form_Login" style="height: 590px; margin-top: 100px; margin-bottom: 50px;">
         <form method="post" action="/register">
             <h5> REGISTRO </h5>
-            <input class="controls" type="text" name="user" value="" placeholder="Usuario">
-            <input class="controls" type="password" name="pass" value="" placeholder="Contraseña">
+            <input class="controls" type="text" name="user" value="" placeholder="Usuario" required>
+            <input class="controls" type="password" name="pass" value="" placeholder="Contraseña" required>
             <input class="controls" id="filetext" type="text" name="photourl" value="" placeholder="Foto de perfil" hidden >
-            <input class="controls" type="text" name="name" value="" placeholder="Primer nombre" >
-            <input class="controls" type="text" name="lastName1" value="" placeholder="Primer apellido" >
-            <input class="controls" type="text" name="lastName2" value="" placeholder="Segundo apellido" >
-            <label>Fecha de nacimiento: <input type="date" name="birthdate"></label><br>
-            <br><label>Foto de perfil: <input id="file" onchange="readURL()" type="file" name="photo"></label> 
+            <input class="controls" type="text" name="name" value="" placeholder="Primer nombre" required>
+            <input class="controls" type="text" name="lastName1" value="" placeholder="Primer apellido" required>
+            <input class="controls" type="text" name="lastName2" value="" placeholder="Segundo apellido" required>
+            <label>Fecha de nacimiento: <input type="date" name="birthdate" required></label><br>
+            <br><label>Foto de perfil: <input id="file" onchange="readURL()" type="file" name="photo" required></label> 
             <input class="btnRegister" type="submit" name="" value="INGRESAR">
         </form>
         <p> <a href="/">¿Ya tienes cuenta? Iniciar sesión</a></p>

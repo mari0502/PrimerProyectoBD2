@@ -22,14 +22,14 @@
     <div class="form_Login" style="width:500px; height: 460px;  margin-top: 110px">
         <form method="post" action="/newdataset" enctype="multipart/form-data">
             <h5> CREAR NUEVO DATASET </h5>
-            <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre">
-            <textarea class="controlDescription" name="desc" id="desc" placeholder="Descripción" maxlength='1000' minlength='10'></textarea>
+            <input class="controls" type="text" name="name" id="name" value="" placeholder="Nombre" required>
+            <textarea class="controlDescription" name="desc" id="desc" placeholder="Descripción" maxlength='1000' minlength='10' required></textarea>
 
             <label for="photo">Seleccione una foto:</label><br>
-            <input class="lblDatasets"type="file" name="archive"><br>
+            <input class="lblDatasets"type="file" name="archive" required><br>
 
             <label for="archive">Seleccione datasets a subir:</label><br>
-            <input class="lblDatasets" type="file" name="archive" id="archive"><br>
+            <input class="lblDatasets" type="file" name="archive" id="archive" required><br>
 
             <label for="video">Agregue tutorial:</label><br>
             <input type="file" name="archive" id="video"><br>
