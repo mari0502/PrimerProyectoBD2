@@ -19,6 +19,9 @@
      h4{
         color: #fca311
      }
+    label{
+        color: white;
+    }
 
     .dynamic-block, .comment-block{
         text-align: center;
@@ -134,6 +137,7 @@
     var label4 = document.createElement('label');
     var label5 = document.createElement('label');
     
+    var br = document.createElement('br');
 
     label1.textContent = "1";
     label1.htmlFor = 'radio1';
@@ -177,6 +181,8 @@
     div.appendChild(radio4);
     div.appendChild(radio5);
 
+    div.appendChild(br);
+    
     div.appendChild(label1);
     div.appendChild(label2);
     div.appendChild(label3);
