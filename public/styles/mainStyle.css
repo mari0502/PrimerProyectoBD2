@@ -130,19 +130,20 @@ header {
 }
 
 .containerMyAcc1{
-    margin: 40px auto auto 90px;
+    margin: 10px auto auto 90px;
     float: left;
 }
 
 .containerMyAcc2{
-    margin: 10px 50px auto auto;
+    margin: 40px 20px auto auto;
     float: right;
 }
 
-.containerMyAcc2 label{
-    float: left;
-    margin-right: 50px;
+.lblProfile{
+    font-size: 16px;
 }
+
+
 
 .datasetStyle{
     margin: auto;

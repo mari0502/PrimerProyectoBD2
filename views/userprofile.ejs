@@ -15,13 +15,12 @@
     <header>
         <ul class="navLinks">
             <li><a href="mainpage">Inicio</a></li>
-            <li><a href="userprofile">Mi perfil</a></li>
             <li><a href="#">Acerca de</a></li>
         </ul>
         <a href="/"><button>Cerrar Sesión</button></a>
     </header>
     
-    <div class="form_Login" style="width:1200px; height: 480px;  margin-top: 110px">
+    <div class="form_Login" style="width:900px; height: 480px;  margin-top: 110px; margin-bottom: 50px;">
         <form method="post" action="/modifyprofile">
             <h5> MI PERFIL </h5>
 
@@ -29,29 +28,20 @@
                 <label for="photo">Foto de perfil:</label><br>
                 <img src="" alt="Foto de perfil" id="photodisplay" width="250" height="250"><br>
                 <input class="btnModify" type="submit" name="" value="MODIFICAR"><br>
-                
             </div>
 
             <div class="containerMyAcc2">
-                <label>Usuario:</label>
-                <input  class="controlsMyAcc" type="text" name="user" id="user" value="" placeholder="Usuario..."><br>
+                <label class="lblProfile">Usuario: <input class="lblProfile" type="text" name="user" id="user" value="" placeholder="Usuario..." disabled></label><br>
                 
-                <label>Contraseña:</label>
-                <input  class="controlsMyAcc" type="text" name="password" id="password" value="" placeholder="Password..."><br>
-                
-                <label>Nombre:</label>
-                <input  class="controlsMyAcc" type="text" name="name" id="name" value="" placeholder="Nombre"><br>
-                
-                <label>Primer apellido:</label>
-                <input  class="controlsMyAcc" type="text" name="lastname1" id="lastname1" value="" placeholder="Primer apellido"><br>
-                
-                <label>Segundo apellido:</label>
-                <input  class="controlsMyAcc" type="text" name="lastname2" id="lastname2" value="" placeholder="Segundo apellido"><br>
-                
-                <label>Fecha nacimiento:</label>
-                <input  class="controlsMyAcc" type="text" name="nacimiento" id="nacimiento" value="" placeholder="Nacimiento..."><br>
-                
-                <input  type="file" onchange="readURL()" name="file">
+                <br><label class="lblProfile">Contraseña: <input class="lblProfile" type="password" name="password" id="password" value="" placeholder="Password..."></label><br>
+
+                <br><label class="lblProfile">Nombre: <input class="lblProfile" type="text" name="name" id="name" value="" placeholder="Nombre"></label><br>
+                <br><label class="lblProfile">Primer apellido: <input  class="lblProfile" type="text" name="lastname1" id="lastname1" value="" placeholder="Primer apellido"></label><br>
+                <br><label class="lblProfile">Segundo apellido: <input  class="lblProfile" type="text" name="lastname2" id="lastname2" value="" placeholder="Segundo apellido"></label><br>
+                <br><label class="lblProfile">Fecha nacimiento: <input  class="lblProfile" type="date" name="birthdate" id="birthdate" value="" placeholder="Nacimiento..."></label><br>
+
+                       
+                <br><input  type="file" onchange="readURL()" name="file">
                 <input  type="text" name="photourl" id="photourl">
             </div>
 
@@ -62,12 +52,12 @@
 <script>
     var userprofile = <%- (userprofile) %>;
     console.log(userprofile);
-    document.getElementById("user").value = userprofile.user;
-    document.getElementById("password").value = userprofile.password;
+    document.getElementById('user').value = userprofile.user;
     document.getElementById('name').value = userprofile.nombre;
     document.getElementById('lastname1').value = userprofile.apellido1;
     document.getElementById('lastname2').value = userprofile.apellido2;
     document.getElementById('photourl').value = userprofile.foto;
+    document.getElementById('birthdate').value = userprofile.fechaNacimiento
     document.getElementById('photodisplay').src = userprofile.foto;
 </script>
 

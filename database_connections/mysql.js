@@ -41,9 +41,8 @@ class MysqlConsultor {
   constructor() { }
 
   insertUser(user, pass) {
-    var random = getRandomInt(1000,9999).toString();
-    var salt = pass + random;
-    var passEnc = encrypt(pass, random);
+    var salt = getRandomInt(1000,9999).toString();
+    var passEnc = encrypt(pass, salt);
     var sql = 'INSERT INTO user values (?, ?, ?)';
 
     connection.query(sql, [user, passEnc, salt], function (err, res, fields) {
@@ -65,7 +64,7 @@ class MysqlConsultor {
             var salt = results[0].salt;
             var passEnc = results[0].pass;
 
-            if(pass == decrypt(passEnc, salt.substring(salt.length - 4))){
+            if(pass == decrypt(passEnc, salt)){
               resolve(results[0]);
             }
             else{
@@ -79,5 +78,7 @@ class MysqlConsultor {
     })
   }
 }
+
+
 
 module.exports = MysqlConsultor;

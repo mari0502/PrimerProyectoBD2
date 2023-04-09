@@ -73,12 +73,13 @@ class MongooseConsultor{
     });
   }
 
-  async updateUserProfile(user ,foto, nombre, apellido1, apellido2){
+  async updateUserProfile(user ,foto, nombre, apellido1, apellido2, fechaNacimiento){
     var userinfo = {
       foto: foto,
       nombre: nombre,
       apellido1: apellido1,
       apellido2: apellido2,
+      fechaNacimiento: fechaNacimiento,
       votes: []
     }
     await userModel.findOneAndUpdate(user, userinfo);

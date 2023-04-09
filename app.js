@@ -122,7 +122,8 @@ app.post('/modifyprofile', async (req,res) =>{
         req.body.photourl, 
         req.body.name,
         req.body.lastname1, 
-        req.body.lastname2);
+        req.body.lastname2,
+        req.body.birthdate);
     userprofile = await mongoosecons.getUserProfile(usercreds.user);
     res.redirect('mainpage');
 });
